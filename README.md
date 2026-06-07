@@ -10,13 +10,7 @@ MarketNest는 전자상거래 쇼핑몰 컨셉의 웹사이트입니다. 상품 
 python app.py
 ```
 
-또는 Windows Python 런처를 사용할 수 있습니다.
-
-```powershell
-py -3 app.py
-```
-
-브라우저에서 `http://localhost:3000`을 엽니다.
+브라우저에서 `http://localhost:3010`을 엽니다.
 
 ## 계정
 
