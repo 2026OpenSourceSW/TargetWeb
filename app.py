@@ -220,7 +220,15 @@ class MarketNestHandler(BaseHTTPRequestHandler):
 
     def serve_static(self):
         parsed = urlparse(self.path)
-        requested = "/index.html" if parsed.path == "/" else unquote(parsed.path)
+        route_aliases = {
+            "/categories": "/product.html",
+            "/categories/": "/product.html",
+            "/cart": "/checkout.html",
+            "/cart/": "/checkout.html",
+            "/account": "/login.html",
+            "/account/": "/login.html",
+        }
+        requested = route_aliases.get(parsed.path, "/index.html" if parsed.path == "/" else unquote(parsed.path))
         relative = requested.lstrip("/")
         file_path = (PUBLIC_DIR / relative).resolve()
 
