@@ -1,30 +1,392 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>상품 관리 | MarketNest</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body class="admin-page">
-    <aside class="admin-sidebar">
-      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
-      <nav>
-        <a href="/admin.html">주문 관리</a>
-        <a class="active" href="/admin-products.html">상품 관리</a>
-        <a href="/">스토어 보기</a>
-      </nav>
-    </aside>
-    <main class="admin-main">
-      <section class="admin-header">
-        <div>
-          <p class="eyebrow">Product management</p>
-          <h1 class="page-title">상품 관리</h1>
-          <p class="muted">카탈로그 상품과 가격을 한눈에 확인합니다.</p>
-        </div>
-      </section>
-      <div id="adminProducts" class="admin-table"></div>
-    </main>
-    <script src="/admin-products.js"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Console | LuminaRetail Product Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#003ea8",
+                    "secondary-fixed": "#d3e4fe",
+                    "surface-tint": "#0053db",
+                    "on-secondary": "#ffffff",
+                    "outline": "#737686",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-container": "#2563eb",
+                    "surface-variant": "#e1e2ed",
+                    "on-primary": "#ffffff",
+                    "background": "#faf8ff",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-surface": "#191b23",
+                    "on-tertiary-container": "#ffede6",
+                    "surface-container": "#ededf9",
+                    "on-secondary-container": "#54647a",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "surface": "#faf8ff",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "primary": "#004ac6",
+                    "tertiary-container": "#bc4800",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#2e3039",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container-highest": "#e1e2ed",
+                    "tertiary": "#943700",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "on-tertiary-fixed": "#360f00",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "tertiary-fixed": "#ffdbcd",
+                    "on-surface-variant": "#434655",
+                    "on-background": "#191b23",
+                    "surface-container-low": "#f3f3fe",
+                    "surface-bright": "#faf8ff",
+                    "inverse-on-surface": "#f0f0fb",
+                    "secondary": "#505f76",
+                    "surface-container-high": "#e7e7f3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "admin-sidebar-width": "260px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .admin-table-row:hover { background-color: rgba(0, 74, 198, 0.04); }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 bottom-0 flex flex-col p-md z-40 bg-surface-container dark:bg-surface-container-highest border-r border-outline-variant dark:border-outline w-[260px]">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-md text-headline-md font-black text-on-surface dark:text-on-primary-fixed-dim">Admin Console</h1>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-70">Managing LuminaRetail</p>
+</div>
+<div class="flex items-center gap-md p-md mb-xl bg-surface rounded-xl shadow-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold">
+                AU
+            </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold">Admin User</span>
+<span class="text-[10px] uppercase tracking-wider text-primary font-bold">Super Admin</span>
+</div>
+</div>
+<nav class="flex-1 space-y-sm">
+<a class="flex items-center gap-md p-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-dim transition-all rounded-lg scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md bg-secondary-container dark:bg-secondary-fixed-variant text-on-secondary-container dark:text-on-secondary-fixed-variant rounded-lg font-bold scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-dim transition-all rounded-lg scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-dim transition-all rounded-lg scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-dim transition-all rounded-lg scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="pt-xl border-t border-outline-variant space-y-sm">
+<a class="flex items-center gap-md p-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[260px] p-xl">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-lg mb-xl">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Product Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Oversee your inventory and manage retail offerings.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-xl pr-md py-sm h-[36px] bg-surface border border-outline-variant rounded-lg w-[280px] focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-sm text-body-sm" placeholder="Search products..." type="text"/>
+</div>
+<button class="flex items-center gap-sm bg-primary text-on-primary px-lg py-sm h-[36px] rounded-lg font-label-md text-label-md hover:opacity-90 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                    Add New Product
+                </button>
+</div>
+</header>
+<!-- Stats Overview Row -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-lg mb-xl">
+<div class="bg-surface p-lg rounded-xl border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Total Products</p>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-md text-headline-md text-on-surface">1,482</span>
+<span class="font-label-sm text-label-sm text-tertiary">+12%</span>
+</div>
+</div>
+<div class="bg-surface p-lg rounded-xl border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Active Inventory</p>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-md text-headline-md text-on-surface">94.2%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant opacity-60">Live</span>
+</div>
+</div>
+<div class="bg-surface p-lg rounded-xl border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Low Stock Alerts</p>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-md text-headline-md text-error">24</span>
+<span class="font-label-sm text-label-sm text-error opacity-80">Requires Action</span>
+</div>
+</div>
+<div class="bg-surface p-lg rounded-xl border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Out of Stock</p>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-md text-headline-md text-on-surface">8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant opacity-60">SKUs</span>
+</div>
+</div>
+</section>
+<!-- Data Table Section -->
+<div class="bg-surface rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="p-md font-label-md text-label-md text-on-surface-variant">Image</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant">Name</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant">SKU</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant">Price</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant">Stock Status</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Product Row 1 -->
+<tr class="admin-table-row transition-colors">
+<td class="p-md">
+<div class="w-12 h-12 rounded-lg bg-surface-variant overflow-hidden border border-outline-variant/20">
+<img alt="Product" class="w-full h-full object-cover" data-alt="A professional studio product shot of high-end over-ear headphones in a sleek matte black finish. The lighting is crisp and directional, casting soft shadows against a neutral grey background. The image reflects a modern, corporate retail aesthetic with clean lines and high contrast, aligning with a premium technology brand palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiyGtY9xUxbBLEaVb3SsGd44RVBjIOUy67bN9_ibyv995uyAH0bWohh1Q5Ooeuzs-_UgZhOeImNhG2Q-VuBWn_DXklhuxyUs3h4XlSEaebsBpuoA4tdQvG4942Vh5wIT2uU2v3acVlxP83rKwUR8PbBIB5KYRW45i4f6bBe_LxB4zmZfY_v16H9cvU19ZlbNC44fn-iNZUKCDijL76tlDCs82mYLOyx7oGHRgGekdhqeVa3sKRlLvZE3US8zUEoFEZdM1ggKRW6IA"/>
+</div>
+</td>
+<td class="p-md">
+<div class="font-body-md text-body-md font-bold text-on-surface">Lumina Sound Pro Max</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Electronics / Audio</div>
+</td>
+<td class="p-md font-body-sm text-body-sm text-on-surface-variant">LUM-AUD-2024-X1</td>
+<td class="p-md font-body-md text-body-md text-on-surface">$299.00</td>
+<td class="p-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">
+                                    In Stock (450)
+                                </span>
+</td>
+<td class="p-md text-right">
+<div class="flex items-center justify-end gap-sm">
+<button class="p-sm text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 2 -->
+<tr class="admin-table-row transition-colors">
+<td class="p-md">
+<div class="w-12 h-12 rounded-lg bg-surface-variant overflow-hidden border border-outline-variant/20">
+<img alt="Product" class="w-full h-full object-cover" data-alt="A minimalist white smartwatch with a silicone strap displayed on a clean, light surface. The lighting is diffused and bright, creating a serene and premium light-mode atmosphere. The composition is centered and emphasizes the device's sleek design and high-quality materials, consistent with a modern corporate tech brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDyH7DFXcl0uj2GmtLpJV__tPdfHp5fD1NXEmOdGlwc6rKH3YCYXW5MXPMGSvFCD0Moycw0pLOvMb7D2VziFErJiJlrS3gvNspy1IK2oyQGpDqjyTmmVZpUu_XmV52tXrnoK1_rqeFfhliZD2DC00yHcdo_V6xvUOOmBW8KrJAS2xV3b0UE32H5yx80ZQ3hfif9CL4Svq3N7PNkRmy8ewcb-4AyXIWavH1MZtGwAt39iiYV1ETcdaPNtGzzmK4_VgEJszf1h1igeU"/>
+</div>
+</td>
+<td class="p-md">
+<div class="font-body-md text-body-md font-bold text-on-surface">Lumina Active Watch S2</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Wearables / Fitness</div>
+</td>
+<td class="p-md font-body-sm text-body-sm text-on-surface-variant">LUM-WCH-0922-S2</td>
+<td class="p-md font-body-md text-body-md text-on-surface">$189.50</td>
+<td class="p-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm">
+                                    Low Stock (12)
+                                </span>
+</td>
+<td class="p-md text-right">
+<div class="flex items-center justify-end gap-sm">
+<button class="p-sm text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 3 -->
+<tr class="admin-table-row transition-colors">
+<td class="p-md">
+<div class="w-12 h-12 rounded-lg bg-surface-variant overflow-hidden border border-outline-variant/20">
+<img alt="Product" class="w-full h-full object-cover" data-alt="A vibrant red athletic sneaker positioned dynamically against a dark, moody background with subtle blue rim lighting. The style is energetic and professional, highlighting the texture of the performance mesh and the sleek curve of the sole. The image uses a high-key accent of primary red to draw focus, maintaining a premium retail photography feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvzZZtTRuoXMLnQmHBQbV-JRiTiFc907K1-_kX7gmy3Z7AOcLnWOYoTkaGfwvkPlyUph9r4f5M3TY992J5ZaHB_jAh9lBV5vMIqdBIMFE9J0KXflPlS_J5ZoAFm4V97aPDYjCcAnXYg9F0GpyLf0Y6zr1x5AmFoX9NJ79-z9_t90v4c19Rzu5GlOykANKkAu8BrbEskVzz37BvPuNwlY1YhTpcaFoq71G86jPmSZAmnvduX9HaJk2T1SA02EUDkW17CScFB67dX30"/>
+</div>
+</td>
+<td class="p-md">
+<div class="font-body-md text-body-md font-bold text-on-surface">Nova Runner Performance</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Apparel / Footwear</div>
+</td>
+<td class="p-md font-body-sm text-body-sm text-on-surface-variant">LUM-FTR-5511-NR</td>
+<td class="p-md font-body-md text-body-md text-on-surface">$125.00</td>
+<td class="p-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">
+                                    In Stock (88)
+                                </span>
+</td>
+<td class="p-md text-right">
+<div class="flex items-center justify-end gap-sm">
+<button class="p-sm text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 4 -->
+<tr class="admin-table-row transition-colors">
+<td class="p-md">
+<div class="w-12 h-12 rounded-lg bg-surface-variant overflow-hidden border border-outline-variant/20">
+<img alt="Product" class="w-full h-full object-cover" data-alt="A designer mechanical keyboard with RGB backlighting reflecting off a polished wood desk surface. The ambient lighting is warm and inviting, contrasted by the sharp, modern blue light of the keyboard. The image captures the fine mechanical details and premium build quality, embodying a sophisticated 'Command Center' aesthetic for professionals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMnfQMGzdLWRwwaYWF4RGVOARbhgnFc_X40yFeD1KQv6HfCm2DkJzbUoAnRIOAJhgy1LysIWxOibB86qsAyngHx2QZW9BlyPNPRfPQ9DjwK64T2IPho_nBm6xx6kJT5bcKeNj4IRxzPvC9EpNA5srwBKttZnvlrfpQAVtSweUXuvRK29vAbuEtLAX1jvNr5IPFCr1M178QbSAkIQRK0N4Ahts-5j0qrd18ubT7bFMjJfcMI7S8Qt0_Ga6q5Ev5vH0_ryS5l6T6V3k"/>
+</div>
+</td>
+<td class="p-md">
+<div class="font-body-md text-body-md font-bold text-on-surface">Apex Mechanical Deck</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Electronics / Peripherals</div>
+</td>
+<td class="p-md font-body-sm text-body-sm text-on-surface-variant">LUM-PER-4402-AK</td>
+<td class="p-md font-body-md text-body-md text-on-surface">$210.00</td>
+<td class="p-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-error/10 text-error font-label-sm text-label-sm">
+                                    Out of Stock
+                                </span>
+</td>
+<td class="p-md text-right">
+<div class="flex items-center justify-end gap-sm">
+<button class="p-sm text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="p-md bg-surface-container-low border-t border-outline-variant flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1 to 4 of 1,482 entries</span>
+<div class="flex items-center gap-sm">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface text-on-surface-variant transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-label-sm text-label-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface text-on-surface-variant font-label-sm text-label-sm transition-all">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface text-on-surface-variant font-label-sm text-label-sm transition-all">3</button>
+<span class="text-on-surface-variant">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface text-on-surface-variant font-label-sm text-label-sm transition-all">371</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface text-on-surface-variant transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple search interactivity
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('input', (e) => {
+            const value = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('.admin-table-row');
+            
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                if(text.includes(value)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Hover effect micro-interaction for action buttons
+        const actionButtons = document.querySelectorAll('button');
+        actionButtons.forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

@@ -1,39 +1,506 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>상품 상세 | MarketNest</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
-      <nav class="nav-links">
-        <a href="/">스토어</a>
-        <a href="/checkout.html">체크아웃</a>
-        <a href="/orders.html">주문 내역</a>
-        <a id="adminLink" class="hidden" href="/admin.html">관리자</a>
-        <a id="loginLink" href="/login.html">로그인</a>
-        <a id="signupLink" class="nav-button" href="/signup.html">회원가입</a>
-        <button id="logoutBtn" class="link-button hidden">로그아웃</button>
-      </nav>
-    </header>
+<!DOCTYPE html>
 
-    <main class="detail-layout">
-      <section id="productDetail" class="product-detail"></section>
-      <section class="band">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Reviews</p>
-            <h2>상품 리뷰</h2>
-          </div>
-        </div>
-        <div id="detailReviews" class="review-list"></div>
-      </section>
-    </main>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuminaRetail | Premium Smartphone Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#003ea8",
+                    "secondary-fixed": "#d3e4fe",
+                    "surface-tint": "#0053db",
+                    "on-secondary": "#ffffff",
+                    "outline": "#737686",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-container": "#2563eb",
+                    "surface-variant": "#e1e2ed",
+                    "on-primary": "#ffffff",
+                    "background": "#faf8ff",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-surface": "#191b23",
+                    "on-tertiary-container": "#ffede6",
+                    "surface-container": "#ededf9",
+                    "on-secondary-container": "#54647a",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "surface": "#faf8ff",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "primary": "#004ac6",
+                    "tertiary-container": "#bc4800",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#2e3039",
+                    "outline-variant": "#c3c6d7",
+                    "surface-dim": "#d9d9e5",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#d0e1fb",
+                    "primary-fixed": "#dbe1ff",
+                    "on-primary-fixed": "#00174b",
+                    "surface-container-highest": "#e1e2ed",
+                    "tertiary": "#943700",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "on-tertiary-fixed": "#360f00",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "tertiary-fixed": "#ffdbcd",
+                    "on-surface-variant": "#434655",
+                    "on-background": "#191b23",
+                    "surface-container-low": "#f3f3fe",
+                    "surface-bright": "#faf8ff",
+                    "inverse-on-surface": "#f0f0fb",
+                    "secondary": "#505f76",
+                    "surface-container-high": "#e7e7f3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "admin-sidebar-width": "260px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface shadow-sm h-[72px]">
+<div class="max-w-container-max mx-auto px-lg flex justify-between items-center h-full">
+<div class="flex items-center gap-xl">
+<a class="font-headline-lg text-headline-lg font-bold text-primary" href="#">LuminaRetail</a>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1 transition-colors" href="#">Shop</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Categories</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Deals</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Orders</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container-low border-none rounded-full px-xl py-sm w-[300px] text-body-sm focus:ring-2 focus:ring-primary transition-all" placeholder="Search products..." type="text"/>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-sm rounded-full hover:bg-surface-variant text-on-surface-variant transition-all">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="p-sm rounded-full hover:bg-surface-variant text-on-surface-variant transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-sm right-sm w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-sm"></div>
+<button class="flex items-center gap-xs text-primary font-label-md px-md py-sm hover:bg-primary-container/10 rounded-lg transition-all">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span>Cart</span>
+</button>
+<button class="bg-surface-container-highest p-base rounded-full border border-outline-variant">
+<img alt="Account" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHoDOUNyhHaDvSmTdiHgnLtIdxngXxOuTWaYibN7fIZLWFqNxMcrAxPZdLBpoOrwNGIC80x-S-udGg9bMxfNX6TOgzMO7o7Lvu0fjmqE63JJ0O-EyY1KeQTOmQiDhcZl-TMaq9wFvqzxtujucucfN8oQeaaDFuUiLtFCvtJqEKR4M0NSSzK8_t9TIsGYUk2x59Mft0tpzU-7EfD6Nvz5Wrdxh6hFRtcXWvR35bIFpuddYndVxfgANfyo_2q_xhqUlACtGo30lrTdE"/>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-[100px] pb-xl max-w-container-max mx-auto px-lg">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-xs text-on-surface-variant font-label-sm mb-lg">
+<a class="hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary" href="#">Smartphones</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface font-bold">Lumina Pro X1</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Left: Gallery Section -->
+<div class="lg:col-span-7 flex flex-col gap-md">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group">
+<img class="w-full aspect-square object-contain p-xl transform transition-transform duration-500 group-hover:scale-105" data-alt="A cinematic close-up of a sleek, premium smartphone in titanium grey, positioned on a minimalist white reflective surface. The lighting is sophisticated and directional, creating deep shadows and bright highlights that emphasize the brushed metal edges and the high-definition glass screen. The overall aesthetic is clean, ultra-modern, and professional, following a light-mode color palette with subtle blue accents." id="mainImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSFNdyjcF2cM5Uc__jdx3JiqTtyY10YiDkKhtDU2baqku9nxnZCeB_R3KAGTD9F6RGO6NN50OoxxJa3jJdIdRiauKi6AMw-w7AYxyS79xeMuVZOM4XRu3aB1s564sSk7i9q_d10j1OF_j3fDysmt6_mOvP5uyZXfT7AsB_ynGfcTHSpA0kgI9RlHk2A1NujqfPV4uZXA4e2mIA6ufuZBsnnwX5Rj_2bNpTnVwzz65Om8BtnEkmmvtYM7l1le7fcpgbfWvTcg3UJyU"/>
+<div class="absolute top-md right-md flex flex-col gap-sm">
+<button class="p-sm bg-surface/80 backdrop-blur rounded-full shadow-sm hover:text-error transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="p-sm bg-surface/80 backdrop-blur rounded-full shadow-sm hover:text-primary transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<div class="flex gap-sm overflow-x-auto pb-sm hide-scrollbar">
+<button class="w-24 h-24 flex-shrink-0 bg-surface-container rounded-lg p-xs border-2 border-primary" onclick="changeImage(this)">
+<img class="w-full h-full object-contain" data-alt="Main view of the premium smartphone showing the front screen with a vibrant high-resolution wallpaper." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlLIMqHf2y_T3MueZov16e7BvKBjpPfFx8DW2fIkqnmd8tssdTFXlMHu5aDKDweU_PeQ02Rmu41VNLc_5k_NqZK75Hgvr1Fru3QcTXlSNSpqRoaZGTmBgqrJvgwfEBMTad7ZjnoFifp6NYb_S4ECK8JdSFUUh8eM5eJ-Ce5agoeIuQhyz0lbOUpV-mZoxaJzBwFoSrIpaA_EsbGIvwwJ3tHEQ-w3-6D_1tS4SURkqi6YpC5d3BnCH2K8zAwz_9OBGEQc1DuqchO2k"/>
+</button>
+<button class="w-24 h-24 flex-shrink-0 bg-surface-container rounded-lg p-xs border-2 border-transparent hover:border-outline-variant transition-all" onclick="changeImage(this)">
+<img class="w-full h-full object-contain" data-alt="Side profile of a premium smartphone showcasing its ultra-thin design and metallic frame under studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaMfFMg_OVayRh9zlXcsOH3CTp0HONPh4mLUGwtNEk-x9B2RsAQYU31o8K-aIRSUg5htkYfqlb1IwFECL0RNJrh3pUOxCkIUy5CxdWzFmd6UcDPDhtUc5yXg9MKH2L267FYiY1oRuuCjHjYqYrA6knIllVDQWSgvpSLH0KF9yDZEKHDvy9kuL05HVe6ayjIf6ELmTUwaS_gpjZJaQqaK4ZhfgJwcwrt5c5KyOkYyo2by3Usc1JmekbPzR24H3bhARpLQrAoW3t0IU"/>
+</button>
+<button class="w-24 h-24 flex-shrink-0 bg-surface-container rounded-lg p-xs border-2 border-transparent hover:border-outline-variant transition-all" onclick="changeImage(this)">
+<img class="w-full h-full object-contain" data-alt="Back view of the smartphone highlighting the sophisticated multi-lens camera module and sleek glass finish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz4bEZGUIGmQqX7j7MjCRhkw2eJkoPqIwGzYPAlpVePzfTd5yVguuv9CO53x8VVptKnD116vfe_MSXBdYJSZDKg3fqBLHq7RN_l7mosV08mPLu1elVE87OerqKStFdk-8PFQA_txo2YYQL6rsXv0wVvf7LE0Ne_yjkadWkyXQ_w4ZcqAjBi1__ucdqKCtG7kxHqM11vLN2awX2FSdOuX9l682D6p3cOiEcBvuF5AyxUT4UCIGYCKp3s14_XQa-BjLq069cz2xlrlA"/>
+</button>
+<button class="w-24 h-24 flex-shrink-0 bg-surface-container rounded-lg p-xs border-2 border-transparent hover:border-outline-variant transition-all" onclick="changeImage(this)">
+<img class="w-full h-full object-contain" data-alt="Detailed macro shot of the charging port and speakers of a high-end smartphone with precision craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN8S8qX0enNpVXSm5YH9XVBl79dShMLt2BZJf6f7BXFNXGpSqD58EyMSESiWpEHlCHYpwmpk8rYNCkspPPdiFAfwbMP6lzuovWUb1QHv7cpA5jESw_YG_JgumJpUokGW4VOC94sOKPhbJEbEwDrX17bfQDZZryXs8dKUuD1k5j719aI7Axmu3GR7eWDdWRFFjSTJvypgVKWA1NZ4OFmbajbq8LPL48DxIS4oi4-XTFRih2UzcomDBirX0sC8wQe3343YT3pWSKj2M"/>
+</button>
+</div>
+</div>
+<!-- Right: Product Info & Actions -->
+<div class="lg:col-span-5 flex flex-col gap-xl">
+<div>
+<span class="inline-block bg-secondary-container text-on-secondary-container font-label-sm px-md py-xs rounded-full mb-md">NEW ARRIVAL</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Lumina Pro X1 Titanium</h1>
+<div class="flex items-center gap-md mb-md">
+<div class="flex items-center text-tertiary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]">star_half</span>
+</div>
+<span class="text-on-surface-variant font-body-sm">(128 Customer Reviews)</span>
+</div>
+<div class="flex items-baseline gap-md">
+<span class="font-headline-lg text-headline-lg text-primary">$1,199.00</span>
+<span class="font-body-md text-on-surface-variant line-through">$1,349.00</span>
+</div>
+</div>
+<!-- Product Options -->
+<div class="flex flex-col gap-lg">
+<div>
+<p class="font-label-md text-on-surface mb-sm">Color: <span class="text-on-surface-variant font-body-sm" id="selectedColor">Titanium Grey</span></p>
+<div class="flex gap-md">
+<button class="w-10 h-10 rounded-full border-2 border-primary bg-slate-500 shadow-inner ring-2 ring-offset-2 ring-transparent transition-all"></button>
+<button class="w-10 h-10 rounded-full border border-outline-variant bg-zinc-800 shadow-inner transition-all hover:ring-2 hover:ring-primary hover:ring-offset-2"></button>
+<button class="w-10 h-10 rounded-full border border-outline-variant bg-indigo-900 shadow-inner transition-all hover:ring-2 hover:ring-primary hover:ring-offset-2"></button>
+</div>
+</div>
+<div>
+<p class="font-label-md text-on-surface mb-sm">Storage Capacity</p>
+<div class="grid grid-cols-3 gap-sm">
+<button class="px-md py-sm rounded-lg border-2 border-primary text-primary font-label-md bg-primary-container/10">256GB</button>
+<button class="px-md py-sm rounded-lg border border-outline-variant text-on-surface-variant font-label-md hover:border-primary transition-all">512GB</button>
+<button class="px-md py-sm rounded-lg border border-outline-variant text-on-surface-variant font-label-md hover:border-primary transition-all">1TB</button>
+</div>
+</div>
+</div>
+<!-- Purchase Actions -->
+<div class="flex flex-col gap-sm mt-md">
+<button class="w-full py-xl bg-primary text-on-primary font-headline-md rounded-xl shadow-lg hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-md">
+<span class="material-symbols-outlined">bolt</span>
+                        Buy Now
+                    </button>
+<button class="w-full py-xl border-2 border-primary text-primary font-headline-md rounded-xl hover:bg-primary-container/5 active:scale-[0.98] transition-all flex items-center justify-center gap-md">
+<span class="material-symbols-outlined">shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+<!-- Trust Badges -->
+<div class="grid grid-cols-2 gap-md border-t border-outline-variant pt-lg mt-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-surface-container rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Free Shipping</p>
+<p class="font-body-sm text-on-surface-variant text-xs">Arrives in 2-3 days</p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-surface-container rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">2-Year Warranty</p>
+<p class="font-body-sm text-on-surface-variant text-xs">Lumina Care Pro</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Specifications Section -->
+<section class="mt-xl pt-xl border-t border-outline-variant">
+<h2 class="font-headline-md text-headline-md mb-xl">Product Specifications</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-md">
+<div class="md:col-span-2 lg:col-span-2 p-xl bg-surface-container rounded-2xl flex flex-col justify-between group overflow-hidden">
+<div>
+<span class="material-symbols-outlined text-primary text-[40px] mb-md">speed</span>
+<h3 class="font-title-lg text-title-lg mb-sm">A15 Bionic X</h3>
+<p class="text-on-surface-variant font-body-sm leading-relaxed">Experience 40% faster performance and breakthrough energy efficiency for extreme gaming.</p>
+</div>
+<div class="mt-xl h-2 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="w-[85%] h-full bg-primary rounded-full transition-all duration-1000"></div>
+</div>
+</div>
+<div class="md:col-span-2 lg:col-span-3 p-xl bg-on-surface text-surface rounded-2xl flex items-center justify-between">
+<div class="flex flex-col gap-sm">
+<h3 class="font-display-lg text-display-lg">6.7"</h3>
+<p class="font-body-md text-outline-variant">OLED Super Retina XDR</p>
+<p class="font-label-sm text-surface-variant mt-md">Adaptive 120Hz Refresh Rate</p>
+</div>
+<span class="material-symbols-outlined text-surface-dim text-[80px] opacity-20">aspect_ratio</span>
+</div>
+<div class="md:col-span-2 lg:col-span-1 p-xl bg-surface-container-high rounded-2xl flex flex-col gap-md text-center items-center">
+<span class="material-symbols-outlined text-tertiary text-[48px]">photo_camera</span>
+<h3 class="font-title-lg text-title-lg">200MP</h3>
+<p class="font-label-sm text-on-surface-variant">Main Sensor</p>
+</div>
+<div class="md:col-span-2 lg:col-span-4 p-xl bg-surface-container-low border border-outline-variant rounded-2xl flex flex-col md:flex-row gap-xl items-center">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md mb-sm">All-Day Battery</h3>
+<p class="text-on-surface-variant font-body-md">Up to 28 hours of video playback. Optimized software manages power consumption even during intensive tasks.</p>
+</div>
+<div class="flex-shrink-0 w-32 h-32 border-4 border-primary rounded-full flex flex-center items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-primary">28h</span>
+</div>
+</div>
+<div class="md:col-span-2 lg:col-span-2 p-xl bg-secondary-container rounded-2xl relative overflow-hidden">
+<h3 class="font-title-lg text-title-lg text-on-secondary-fixed-variant mb-md">MagSafe Pro</h3>
+<p class="text-on-secondary-container font-body-sm mb-xl">Wireless charging reinvented with secure magnetic alignment and faster speeds.</p>
+<span class="material-symbols-outlined text-[120px] absolute -bottom-10 -right-10 opacity-10 rotate-12">power</span>
+</div>
+</div>
+</section>
+<!-- Customer Reviews -->
+<section class="mt-xl pt-xl border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-lg mb-xl">
+<div>
+<h2 class="font-headline-md text-headline-md mb-xs">Customer Reviews</h2>
+<p class="text-on-surface-variant font-body-md">Based on 1,450 verified purchase ratings</p>
+</div>
+<button class="px-xl py-md bg-on-surface text-surface rounded-xl font-label-md hover:bg-on-surface-variant transition-all">Write a Review</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<!-- Review Card 1 -->
+<div class="p-xl bg-surface rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between mb-md">
+<div class="flex items-center gap-md">
+<img alt="Sarah J." class="w-12 h-12 rounded-full border-2 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDj_hZKjwAvNbeeI0zKq4aiOepksGwugqf9iE_kiIxYvsJ36Hg7cYTLM5XfEQYXqrLOllaW5qrfbL1XSrQOu5iCT_FimFRvppXaSAp88eaeIdUsO9BXhz7ofZ1RsaE9T0cdJT6lEMOHkN6NybeKQShDtRNTn6ba9IWBO726LEH7ILxWutxSDIEr6lL0pyPz3s7ZB3acKc5k0FaHAnIGEUwEXNpCcEoETpL9pEP0SLtLY9p3dPES-SUjKN6405AYICGMn6cpWF19iVY"/>
+<div>
+<p class="font-title-lg text-title-lg text-sm">Sarah Jenkins</p>
+<p class="text-on-surface-variant font-body-sm text-xs">Verified Buyer • 2 days ago</p>
+</div>
+</div>
+<div class="flex text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-on-surface leading-relaxed italic">"The screen quality is absolutely unmatched. Switching from my old phone to the Lumina Pro X1 felt like jumping forward a decade. The Titanium finish is incredibly premium and doesn't pick up fingerprints easily."</p>
+<div class="mt-md pt-md border-t border-outline-variant flex items-center gap-lg text-on-surface-variant">
+<button class="flex items-center gap-xs font-label-sm hover:text-primary"><span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (24)</button>
+<button class="flex items-center gap-xs font-label-sm hover:text-error"><span class="material-symbols-outlined text-[16px]">report</span> Report</button>
+</div>
+</div>
+<!-- Review Card 2 -->
+<div class="p-xl bg-surface rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between mb-md">
+<div class="flex items-center gap-md">
+<img alt="Michael R." class="w-12 h-12 rounded-full border-2 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7IPuh03KAzdWK1_R_LnnMEwNiEuwScR4BNUtGczePevb0BwP8vziuz69RuPob-73gGGktCxw6zSQbVmA-ItbtOGYidUirAvQoaFcsWZNetd2Bh-aQjJQ4XoYAz735W92W1wVRB1YxKebpLxI4WSdYECTWk5IGgBHhN03_Z4hP423brAXSYFna9RniNe8e5ru2WMW5TSPxDUfUoNNPM0IpzkXXLVrBoo5IzWuYhU1J60TdbLZ4kpj7gAUbj8VhTCVStFNQDJYEmt4"/>
+<div>
+<p class="font-title-lg text-title-lg text-sm">Michael Ross</p>
+<p class="text-on-surface-variant font-body-sm text-xs">Verified Buyer • 1 week ago</p>
+</div>
+</div>
+<div class="flex text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+</div>
+<p class="font-body-md text-on-surface leading-relaxed italic">"Stunning camera capabilities. The night mode shots are better than some dedicated mirrorless cameras I've used. My only complaint is the shipping took an extra day, but the phone itself is perfect."</p>
+<div class="mt-md pt-md border-t border-outline-variant flex items-center gap-lg text-on-surface-variant">
+<button class="flex items-center gap-xs font-label-sm hover:text-primary"><span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (12)</button>
+<button class="flex items-center gap-xs font-label-sm hover:text-error"><span class="material-symbols-outlined text-[16px]">report</span> Report</button>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg py-md text-primary font-label-md hover:bg-primary-container/10 rounded-lg transition-all underline">View All Reviews</button>
+</section>
+<!-- Related Products -->
+<section class="mt-xl pt-xl border-t border-outline-variant">
+<h2 class="font-headline-md text-headline-md mb-xl">You might also like</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Related 1 -->
+<div class="bg-surface border border-outline-variant rounded-2xl overflow-hidden group hover:shadow-xl transition-all duration-300">
+<div class="aspect-square bg-surface-container overflow-hidden p-xl">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="A lifestyle product shot of a minimalist clear smartphone case designed for the Lumina Pro series. The case is displayed on a bright, airy wood surface with natural morning sunlight streaming in, highlighting the clarity and reinforced corner protection. The aesthetic is clean, modern, and high-end." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6bWCHAzriG1BcQfyeoS87VY7XA7dzUozP_Wqq5oHGNBwOUnu_uJPz_oPjCO3HeGQauo6jdnO6zjPRKEygjJMfaBnSkEYBeU17h99OAx85M-8oMT7odhqFiq59hrwtUfRrq2cMYXYDdN-zr3o-ho4NwT7Y-hQzJE9Zvux1uPPfSOCU2QzFy5CQ0y0VuM7pWWpAess86VdqcT0FU8ZVOMBZL-MZ9pODFs5YOcNsu0UMOjp4_4t8dhU6hSF-vl7JKR-DYSbLufOVgbY"/>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-on-surface-variant mb-xs">ACCESSORIES</p>
+<h4 class="font-title-lg text-title-lg text-base mb-sm">Clear Guard MagSafe Case</h4>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-sm text-primary">$49.00</span>
+<button class="p-sm rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Related 2 -->
+<div class="bg-surface border border-outline-variant rounded-2xl overflow-hidden group hover:shadow-xl transition-all duration-300">
+<div class="aspect-square bg-surface-container overflow-hidden p-xl">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="Premium wireless noise-canceling headphones in matte white, shown in a studio environment with high-key lighting. The product features brushed aluminum hinges and soft leather padding. The image uses a clean, light-mode corporate aesthetic, emphasizing technological sophistication and comfort." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxs0cjOnqPHykvGGxNmEdIIURvn-F_OCY3rTCZwjm1XhOb13mOqc6RadHXfzWs12e0TLlOqvE02PiVyUuh99Cu0B2gFR-BoWovEoX_2dl1QR4dR5HDHITYxCNpuNmQmhVTgvcErCMDb9OpDeDBqEtuNWo7feQkKqQrUuENTFSYI8GuZ4gyeWpPyzha2qhYlkJ5k3zOmybX6fo8QiPDcNDgY_KK-zGBaIvJsWo4ba-KqvnMMB4nGxP67XUdGTNcf9llhMpEL8ds17k"/>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-on-surface-variant mb-xs">AUDIO</p>
+<h4 class="font-title-lg text-title-lg text-base mb-sm">Lumina Audio Air Buds</h4>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-sm text-primary">$199.00</span>
+<button class="p-sm rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Related 3 -->
+<div class="bg-surface border border-outline-variant rounded-2xl overflow-hidden group hover:shadow-xl transition-all duration-300">
+<div class="aspect-square bg-surface-container overflow-hidden p-xl">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="A high-end smartwatch with a sleek metal band and a vibrant OLED display showing a health dashboard. The watch is placed on a textured dark slate surface, with professional lighting that accentuates its premium build quality. The overall mood is athletic yet professional, fitting the Lumina brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIx58NqcawskF5CZ1n4V31kyyE7puhF13dFwe7CLQRap1LK3703xaIutWu82NJ7q80XA6O77_xcNpDv9LTEWT4OKYOcteNrMNyrEEv0PdjPTskQaYPABgIpg6dsOvHTesXwGV253uFcw9ooWfzCsOLWs2FHfbhyb4ut5GzwAI7eujhbt8m_YYjOzu6IozvxnPA25sYuMOaqMfjxw_DM2N6rUmNWk_pNBvLlj7tIWn39AaqlOXFKaM4pw28BLvmTuDhU2zC93ANQFM"/>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-on-surface-variant mb-xs">WEARABLES</p>
+<h4 class="font-title-lg text-title-lg text-base mb-sm">Lumina Watch Ultra</h4>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-sm text-primary">$349.00</span>
+<button class="p-sm rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Related 4 -->
+<div class="bg-surface border border-outline-variant rounded-2xl overflow-hidden group hover:shadow-xl transition-all duration-300">
+<div class="aspect-square bg-surface-container overflow-hidden p-xl">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="A slim, high-performance tablet propped up on a minimalist aluminum stand in a bright, modern office setting. The screen displays a complex design application with vivid colors. Soft natural light illuminates the scene, highlighting the ultra-thin bezels and premium finish of the device." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGegYB3x0I4JbUjix_JiJVqxvL56WU_qQ03odQuO0btENjQ-zWXsIeN0IEuQcdgeKO2rXkqQIH-MC0rQbsaJrghYGOWIfF8ECUB85a30gl_KGcaGV-Pw8iqOqX0n1Mv-b_7V9ig153GTZEJS6cST-O50bQjCkMtfEeHqRZlQ25_fWKWJvdxGUOn4a7BWlYNJieS0yNSHOshH_fwl61DtqloQSSyCmoTkmyIS2iQV2wnF7-oFlf7LfrBeIl5icnsJQpmUt5_QO4oPI"/>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-on-surface-variant mb-xs">TABLETS</p>
+<h4 class="font-title-lg text-title-lg text-base mb-sm">Lumina Tab 12 Pro</h4>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-sm text-primary">$799.00</span>
+<button class="p-sm rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant py-xl mt-xl">
+<div class="max-w-container-max mx-auto px-xl flex flex-col items-center gap-md text-center">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">LuminaRetail</h2>
+<div class="flex flex-wrap justify-center gap-lg">
+<a class="font-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">About Us</a>
+<a class="font-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">FAQ</a>
+</div>
+<p class="font-body-sm text-body-sm text-on-secondary-container mt-md">© 2024 LuminaRetail. All rights reserved.</p>
+<div class="flex gap-md mt-sm">
+<a class="p-sm text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="p-sm text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">chat</span></a>
+<a class="p-sm text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+</footer>
+<script>
+        function changeImage(button) {
+            const mainImg = document.getElementById('mainImage');
+            const newSrc = button.querySelector('img').src;
+            const newAlt = button.querySelector('img').dataset.alt;
+            
+            // Animation effect
+            mainImg.classList.add('opacity-0');
+            setTimeout(() => {
+                mainImg.src = newSrc;
+                mainImg.dataset.alt = newAlt;
+                mainImg.classList.remove('opacity-0');
+            }, 200);
 
-    <script src="/auth.js"></script>
-    <script src="/product.js"></script>
-  </body>
-</html>
+            // Active state for thumbnails
+            document.querySelectorAll('button[onclick="changeImage(this)"]').forEach(btn => {
+                btn.classList.remove('border-primary');
+                btn.classList.add('border-transparent');
+            });
+            button.classList.add('border-primary');
+            button.classList.remove('border-transparent');
+        }
+
+        // Color selection interaction
+        const colorButtons = document.querySelectorAll('button.w-10.h-10');
+        const colorText = document.getElementById('selectedColor');
+        const colorNames = ['Titanium Grey', 'Obsidian Black', 'Midnight Blue'];
+
+        colorButtons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                colorButtons.forEach(b => b.classList.remove('border-primary', 'ring-2', 'ring-offset-2', 'ring-primary'));
+                colorButtons.forEach(b => b.classList.add('border-outline-variant'));
+                btn.classList.remove('border-outline-variant');
+                btn.classList.add('border-primary', 'ring-2', 'ring-offset-2', 'ring-primary');
+                colorText.textContent = colorNames[index];
+            });
+        });
+    </script>
+</body></html>

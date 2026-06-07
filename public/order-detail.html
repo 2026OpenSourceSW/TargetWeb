@@ -1,21 +1,375 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>주문 상세 | MarketNest</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
-      <nav class="nav-links"><a href="/orders.html">주문 내역</a><a href="/">스토어</a></nav>
-    </header>
-    <main class="band">
-      <p class="eyebrow">Order details</p>
-      <h1 id="orderTitle" class="page-title">주문 상세</h1>
-      <div id="orderDetail" class="tool-panel"></div>
-    </main>
-    <script src="/order-detail.js"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Details - LuminaRetail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb596",
+                    "on-secondary-container": "#54647a",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface-variant": "#e1e2ed",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffdbcd",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container": "#ededf9",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "inverse-on-surface": "#f0f0fb",
+                    "surface-dim": "#d9d9e5",
+                    "secondary-fixed": "#d3e4fe",
+                    "surface": "#faf8ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-background": "#191b23",
+                    "primary": "#004ac6",
+                    "inverse-primary": "#b4c5ff",
+                    "on-surface": "#191b23",
+                    "surface-container-high": "#e7e7f3",
+                    "outline": "#737686",
+                    "on-secondary-fixed": "#0b1c30",
+                    "inverse-surface": "#2e3039",
+                    "primary-container": "#2563eb",
+                    "on-surface-variant": "#434655",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#bc4800",
+                    "tertiary": "#943700",
+                    "surface-tint": "#0053db",
+                    "secondary": "#505f76",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-tertiary-container": "#ffede6",
+                    "surface-container-low": "#f3f3fe",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#dbe1ff",
+                    "on-primary-fixed": "#00174b",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#d0e1fb",
+                    "background": "#faf8ff",
+                    "surface-container-highest": "#e1e2ed",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "surface-bright": "#faf8ff",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "on-primary-container": "#eeefff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "admin-sidebar-width": "260px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .status-dot-active { box-shadow: 0 0 0 4px rgba(0, 74, 198, 0.15); }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); }
+    </style>
+</head>
+<body class="text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline shadow-sm">
+<div class="max-w-container-max mx-auto px-lg flex justify-between items-center h-16">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary cursor-pointer">LuminaRetail</span>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-container hover:text-primary transition-colors duration-200 cursor-pointer" href="#">Shop</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-container hover:text-primary transition-colors duration-200 cursor-pointer" href="#">Deals</a>
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1 transition-colors duration-200 cursor-pointer" href="#">Orders</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-container hover:text-primary transition-colors duration-200 cursor-pointer" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden sm:flex bg-surface-container-low px-md py-xs rounded-full items-center border border-outline-variant">
+<span class="material-symbols-outlined text-outline">search</span>
+<span class="ml-xs text-body-sm text-outline">Search products...</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:opacity-80" data-icon="shopping_cart">shopping_cart</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:opacity-80" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow max-w-container-max mx-auto w-full px-md md:px-lg py-xl">
+<!-- Breadcrumbs & Actions -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md mb-xl">
+<div class="flex flex-col">
+<div class="flex items-center gap-xs text-on-surface-variant mb-xs">
+<span class="font-label-md text-label-md cursor-pointer hover:text-primary">Account</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-label-md text-label-md cursor-pointer hover:text-primary">Order History</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg flex items-center gap-md">
+                    Order #ORD-8829-XL12
+                    <span class="px-md py-base rounded-full bg-primary-container/10 text-primary-container text-label-sm uppercase tracking-wider">In Transit</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Placed on June 10, 2024</p>
+</div>
+<div class="flex gap-sm w-full md:w-auto">
+<button class="flex-1 md:flex-none px-lg py-md rounded-lg bg-surface border border-outline-variant text-on-surface font-label-md flex items-center justify-center gap-sm hover:bg-surface-container-low transition-all duration-200 active:scale-95">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                    Download Invoice
+                </button>
+<button class="flex-1 md:flex-none px-lg py-md rounded-lg bg-primary text-on-primary font-label-md flex items-center justify-center gap-sm shadow-lg hover:brightness-110 transition-all duration-200 active:scale-95">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+                    Track Shipment
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Left Column: Details & Products -->
+<div class="lg:col-span-8 space-y-xl">
+<!-- Status Timeline -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg md:p-xl shadow-sm">
+<h2 class="font-title-lg text-title-lg mb-xl">Delivery Progress</h2>
+<div class="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-lg">
+<!-- Connecting Line (Desktop) -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-outline-variant -translate-y-1/2 hidden md:block z-0">
+<div class="h-full bg-primary" style="width: 75%;"></div>
+</div>
+<!-- Timeline Steps -->
+<div class="relative z-10 flex md:flex-col items-center gap-md md:gap-sm md:w-1/4">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined">check</span>
+</div>
+<div class="text-left md:text-center">
+<p class="font-label-md text-label-md text-on-surface">Order Placed</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">June 10, 2024</p>
+</div>
+</div>
+<div class="relative z-10 flex md:flex-col items-center gap-md md:gap-sm md:w-1/4">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined">check</span>
+</div>
+<div class="text-left md:text-center">
+<p class="font-label-md text-label-md text-on-surface">Payment Confirmed</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">June 10, 2024</p>
+</div>
+</div>
+<div class="relative z-10 flex md:flex-col items-center gap-md md:gap-sm md:w-1/4">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined">check</span>
+</div>
+<div class="text-left md:text-center">
+<p class="font-label-md text-label-md text-on-surface">Shipped</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">June 12, 2024</p>
+</div>
+</div>
+<div class="relative z-10 flex md:flex-col items-center gap-md md:gap-sm md:w-1/4">
+<div class="w-10 h-10 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center status-dot-active">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div class="text-left md:text-center">
+<p class="font-label-md text-label-md text-primary">Out for Delivery</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Expected Today</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Product List -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="p-lg border-b border-outline-variant">
+<h2 class="font-title-lg text-title-lg">Order Items (2)</h2>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Product 1 -->
+<div class="p-lg flex flex-col sm:flex-row gap-lg hover:bg-surface-container-low transition-colors duration-200">
+<div class="w-24 h-24 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A premium close-up studio photograph of Lumina Pro Wireless X1 headphones in Obsidian Black. The headphones feature a sleek, matte finish with luxurious leather ear cups, reflecting a soft, cool professional studio light. The composition is minimalist and high-end, highlighting the industrial design against a clean, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRIqNlr0knJqEayD5F7kRIvFi17hwuT5CJ8ZWaYNP0bAmSk7A1UXR-uoZZwjkx6eYuC-1DJbZMhELVlTFMDUfRLlBR1FCuzrpOZ13QMSv_iKz1FQKIpA4t4SjRd3StiNR1JxTMQgdUmnj6OpG1TJwX3rIjMG9zHEXjfC5TbU1iWKZHqpRTVZHwSYMnqqIkPEnArTrkn-C3Nqz40gMVHxVpzh2to7s0M6gLK_kHzU0tSbDEHMyZcTjgGgTg3OcVsMS3khbQWVh1TmY"/>
+</div>
+<div class="flex-grow flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Lumina Pro Wireless X1</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Color: Obsidian Black</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Quantity: 1</p>
+</div>
+<p class="font-label-md text-label-md text-on-surface">$299.99</p>
+</div>
+<div class="mt-md flex gap-md">
+<button class="text-primary font-label-sm hover:underline">Track Item</button>
+<button class="text-on-surface-variant font-label-sm hover:underline">Write Review</button>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="p-lg flex flex-col sm:flex-row gap-lg hover:bg-surface-container-low transition-colors duration-200">
+<div class="w-24 h-24 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-quality product shot of a Lumina minimalist tech accessory pouch made of recycled slate-gray fabric. The pouch is displayed in a bright, modern setting with soft ambient shadows, emphasizing its clean lines and functional texture. The mood is sophisticated and eco-friendly, consistent with a modern corporate professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoaWiZiz5K0LW09zmuOdS-jMxPkWcwLe0jRNHNDKjvBIvDm6iA_CkFKC2gCCuv4wa49vKwpBQIcGO2d2yIllah_eTC0Ly00VfOgqXBqomZVVaurcS4GkUqnE4IyPOnFqw0LbQmcAOMX0pc-3sDjDFKD87R3JHG_NHDx1zWc_yqdhfJ3O_ojFbF8zDbO5ceCySwKRJIfVxPZOPSeNSF_3Diny6arJ3jthKmqQjoHLNbTAfD83K8qaWIhCi0rMHufgJbkgY42aOtQwk"/>
+</div>
+<div class="flex-grow flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Lumina Tech Pouch</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Color: Slate Gray</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Quantity: 1</p>
+</div>
+<p class="font-label-md text-label-md text-on-surface">$23.68</p>
+</div>
+<div class="mt-md flex gap-md">
+<button class="text-primary font-label-sm hover:underline">Track Item</button>
+<button class="text-on-surface-variant font-label-sm hover:underline">Write Review</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Shipping & Payment Details -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<div class="flex items-center gap-sm mb-md text-on-surface">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<h2 class="font-title-lg text-title-lg">Shipping Address</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Alex Thorne</p>
+<p class="font-body-md text-body-md text-on-surface-variant">1248 Innovation Drive, Suite 100</p>
+<p class="font-body-md text-body-md text-on-surface-variant">San Francisco, CA 94103</p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">phone</span> (555) 123-4567
+                        </p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<div class="flex items-center gap-sm mb-md text-on-surface">
+<span class="material-symbols-outlined text-primary">credit_card</span>
+<h2 class="font-title-lg text-title-lg">Payment Method</h2>
+</div>
+<div class="flex items-center gap-md mb-md">
+<div class="w-12 h-8 bg-surface-container rounded border border-outline-variant flex items-center justify-center">
+<span class="font-bold text-[10px] text-on-surface-variant">VISA</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Visa ending in 4242</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Expires 08/26</p>
+</div>
+</div>
+<div class="pt-md border-t border-outline-variant">
+<p class="font-label-md text-label-md text-on-surface">Billing Address</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Same as shipping address</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Summary -->
+<div class="lg:col-span-4 space-y-xl">
+<!-- Summary Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm sticky top-24">
+<h2 class="font-title-lg text-title-lg mb-xl">Payment Summary</h2>
+<div class="space-y-md mb-xl">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Subtotal</span>
+<span class="font-body-md text-body-md">$323.67</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Shipping</span>
+<span class="font-label-md text-label-md text-primary uppercase">Free</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Tax</span>
+<span class="font-body-md text-body-md">$0.00</span>
+</div>
+<div class="pt-md border-t border-outline-variant flex justify-between items-center text-on-surface">
+<span class="font-title-lg text-title-lg">Total</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">$323.67</span>
+</div>
+</div>
+<div class="space-y-sm">
+<div class="p-md rounded-lg bg-surface-container-low border border-outline-variant flex items-start gap-md">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Items from this order can be returned until July 10, 2024.</p>
+</div>
+<button class="w-full py-md rounded-lg text-primary font-label-md hover:bg-primary/5 transition-colors duration-200 flex items-center justify-center gap-sm mt-md">
+<span class="material-symbols-outlined">help</span>
+                            Need Help?
+                        </button>
+</div>
+</section>
+<!-- Shipping Method -->
+<div class="bg-primary-container/5 border border-primary/20 rounded-xl p-lg">
+<h3 class="font-label-md text-label-md text-primary-container mb-sm">Shipping Method</h3>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary-container">bolt</span>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Standard Express</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">2-3 Business Days Delivery</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-surface-container-low dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="max-w-container-max mx-auto px-lg py-xl flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex flex-col items-center md:items-start gap-sm">
+<span class="font-title-lg text-title-lg font-bold text-on-surface dark:text-inverse-on-surface">LuminaRetail</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">© 2024 LuminaRetail. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-lg">
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:underline text-primary transition-all duration-200" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:underline text-primary transition-all duration-200" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:underline text-primary transition-all duration-200" href="#">Shipping Info</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:underline text-primary transition-all duration-200" href="#">Returns</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for primary button
+        const trackBtn = document.querySelector('button.bg-primary');
+        if (trackBtn) {
+            trackBtn.addEventListener('click', () => {
+                trackBtn.innerHTML = '<span class="animate-spin material-symbols-outlined">refresh</span> Tracking...';
+                setTimeout(() => {
+                    trackBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">local_shipping</span> Track Shipment';
+                }, 2000);
+            });
+        }
+    </script>
+</body></html>

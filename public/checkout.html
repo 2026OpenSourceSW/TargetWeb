@@ -1,44 +1,370 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>체크아웃 | MarketNest</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
-      <nav class="nav-links">
-        <a href="/">스토어</a>
-        <a href="/orders.html">주문 내역</a>
-        <a id="adminLink" class="hidden" href="/admin.html">관리자</a>
-        <a id="loginLink" href="/login.html">로그인</a>
-        <a id="signupLink" class="nav-button" href="/signup.html">회원가입</a>
-        <button id="logoutBtn" class="link-button hidden">로그아웃</button>
-      </nav>
-    </header>
+<!DOCTYPE html>
 
-    <main class="band checkout-layout">
-      <section>
-        <p class="eyebrow">Checkout</p>
-        <h1 class="page-title">주문서</h1>
-        <div id="checkoutItems" class="cart-list"></div>
-      </section>
-      <form id="checkoutPageForm" class="tool-panel checkout-card">
-        <div class="panel-title"><span>결제 정보</span><strong>MarketNest Pay</strong></div>
-        <label>주문 금액
-          <input id="checkoutTotal" type="number" value="0">
-        </label>
-        <label>쿠폰 할인율
-          <input id="checkoutDiscount" type="number" value="0">
-        </label>
-        <button>주문하기</button>
-        <pre id="checkoutPageResult" class="codebox compact"></pre>
-      </form>
-    </main>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout | LuminaRetail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#505f76",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-tint": "#0053db",
+                        "on-surface": "#191b23",
+                        "primary": "#004ac6",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#ffede6",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-highest": "#e1e2ed",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-secondary-container": "#54647a",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-container-high": "#e7e7f3",
+                        "surface-container-low": "#f3f3fe",
+                        "on-surface-variant": "#434655",
+                        "on-background": "#191b23",
+                        "surface-bright": "#faf8ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#faf8ff",
+                        "inverse-surface": "#2e3039",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f0f0fb",
+                        "primary-fixed": "#dbe1ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#ededf9",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-container": "#bc4800",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "tertiary": "#943700",
+                        "secondary-container": "#d0e1fb",
+                        "outline-variant": "#c3c6d7",
+                        "primary-container": "#2563eb",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "outline": "#737686",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#eeefff",
+                        "surface-dim": "#d9d9e5",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e1e2ed",
+                        "surface": "#faf8ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "admin-sidebar-width": "260px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "container-max": "1280px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-container-lowest shadow-sm">
+<nav class="flex justify-between items-center w-full px-lg py-md max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">LuminaRetail</span>
+<div class="hidden md:flex gap-md">
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Shop</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Categories</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Support</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors scale-95 duration-150 active:scale-90">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors scale-95 duration-150 active:scale-90">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="person">person</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="pt-24 pb-xl px-md md:px-lg max-w-container-max mx-auto">
+<div class="flex flex-col lg:grid lg:grid-cols-12 gap-xl">
+<!-- Left Column: Shipping & Payment -->
+<div class="lg:col-span-8 space-y-xl">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-xs font-label-md text-label-md text-on-surface-variant">
+<a class="hover:text-primary" href="#">Cart</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface font-bold">Checkout</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-outline">Payment</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg mb-md">Secure Checkout</h1>
+<!-- Shipping Information Section -->
+<section class="bg-surface-container-lowest rounded-xl p-xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="local_shipping">local_shipping</span>
+</div>
+<h2 class="font-title-lg text-title-lg">Shipping Information</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Full Name</label>
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="e.g. Alex Johnson" type="text"/>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Shipping Address</label>
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="Street name and number" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs">City</label>
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="San Francisco" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Postal Code</label>
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="94103" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Country</label>
+<select class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none">
+<option>United States</option>
+<option>Canada</option>
+<option>United Kingdom</option>
+</select>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Phone Number</label>
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+</section>
+<!-- Payment Method Section -->
+<section class="bg-surface-container-lowest rounded-xl p-xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<h2 class="font-title-lg text-title-lg">Payment Method</h2>
+</div>
+<div class="space-y-md">
+<!-- Card Option -->
+<div class="relative group cursor-pointer border-2 border-primary rounded-xl p-md bg-primary/5 transition-all" id="method-card">
+<div class="flex items-center justify-between mb-lg">
+<div class="flex items-center gap-md">
+<input checked="" class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="payment" type="radio"/>
+<span class="font-label-md text-label-md font-bold">Credit / Debit Card</span>
+</div>
+<div class="flex gap-xs">
+<div class="w-10 h-6 bg-surface-container-high rounded flex items-center justify-center text-[10px] font-bold text-on-surface-variant">VISA</div>
+<div class="w-10 h-6 bg-surface-container-high rounded flex items-center justify-center text-[10px] font-bold text-on-surface-variant">MC</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg" id="card-details">
+<div class="md:col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Card Number</label>
+<div class="relative">
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="0000 0000 0000 0000" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline" data-icon="lock">lock</span>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Expiry Date</label>
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="MM/YY" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">CVV</label>
+<input class="w-full h-12 px-md rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="123" type="text"/>
+</div>
+</div>
+</div>
+<!-- Other Options -->
+<div class="border border-outline-variant rounded-xl p-md hover:bg-surface-container-low transition-colors cursor-pointer" id="method-paypal">
+<div class="flex items-center gap-md">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="payment" type="radio"/>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-label-md font-bold">PayPal</span>
+<span class="text-body-sm text-on-surface-variant">(Connect your account)</span>
+</div>
+</div>
+</div>
+<div class="border border-outline-variant rounded-xl p-md hover:bg-surface-container-low transition-colors cursor-pointer" id="method-bank">
+<div class="flex items-center gap-md">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="payment" type="radio"/>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-label-md font-bold">Bank Transfer</span>
+<span class="text-body-sm text-on-surface-variant">(3-5 business days)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Sticky Sidebar -->
+<div class="lg:col-span-4">
+<div class="sticky top-24 space-y-lg">
+<section class="bg-surface-container-lowest rounded-xl p-xl shadow-sm border border-outline-variant/30">
+<h2 class="font-title-lg text-title-lg mb-lg">Order Summary</h2>
+<div class="space-y-md mb-xl">
+<!-- Item 1 -->
+<div class="flex gap-md">
+<div class="w-20 h-20 rounded-lg bg-surface-container-low overflow-hidden flex-shrink-0">
+<img alt="Lumina Pro Wireless X1" class="w-full h-full object-cover" data-alt="A professional studio product photograph of high-end wireless over-ear headphones in a sleek matte black finish. The lighting is soft and cinematic, highlighting the premium leather textures and metallic accents. The background is a clean, minimal gradient of soft greys, perfectly aligned with a professional retail aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrFC5JaAWo63sXBVJ6JjPJKbbE_OBe4Dct8hwRxXt3mZFVUDHJEYIa8AzAULGY5sXYP14WCPB6D0dxlvfzuMU9-bzcE5eacWZG9id2J_ZbuQxGMyjM-sGlmJkToSrUkaH0Gn7yp-Kbg946EEZ4K-48oRLMc0xpArRiyR23LaZP1AeKoaPd-wzGSAXn_zHqIFBSdyhgR5KiP5UrVf3khwkGRhne62mRGotU3KV430kBmJRDZp2bDA_e7LCuYphNa3Fiz9Zp2WFVeNE"/>
+</div>
+<div class="flex-1">
+<p class="font-body-md text-body-md font-semibold text-on-surface line-clamp-1">Lumina Pro Wireless X1</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Space Grey • Qty: 1</p>
+<p class="font-body-md text-body-md font-bold text-primary mt-xs">$299.00</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-md">
+<div class="w-20 h-20 rounded-lg bg-surface-container-low overflow-hidden flex-shrink-0">
+<img alt="Minimalist Watch" class="w-full h-full object-cover" data-alt="A macro shot of a minimalist luxury wristwatch with a sapphire glass face and a high-quality leather strap. The watch rests on a textured white surface, illuminated by natural, bright morning light that emphasizes its clean lines and expert craftsmanship. The overall mood is sophisticated and reliable, fitting a premium commerce platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5kCu0lS75InAvdpA0U_RmDYbts2yHRGBM5vPcaMiiSCbPh51E390ZboPBLT6kqSxk3cYtmOHVoyluZ4MotoE5xK6Cdn7c5QvAP5xGkb-AfGY1o45iu76TbbsF06QPYmhykuRQzyomI7ws2csk9nXWNw6cs_mHD4ODzQ0eFjC8CToQkBxd_moWe-H8ldGszlgkgDZ8PSHII6MS6rH2RORelQmByxWd-El4kEI-c_y_3WO_yq2APIHPQtDrjrqQB9pewkBE-e1xofQ"/>
+</div>
+<div class="flex-1">
+<p class="font-body-md text-body-md font-semibold text-on-surface line-clamp-1">Lumina Minimalist Horizon</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Leather Strap • Qty: 1</p>
+<p class="font-body-md text-body-md font-bold text-primary mt-xs">$149.00</p>
+</div>
+</div>
+</div>
+<!-- Totals -->
+<div class="space-y-sm pt-lg border-t border-outline-variant">
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span>$448.00</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Shipping</span>
+<span class="text-green-600 font-bold uppercase text-xs">Free</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Estimated Taxes</span>
+<span>$35.84</span>
+</div>
+<div class="flex justify-between pt-md mt-sm border-t border-outline-variant font-headline-md text-headline-md">
+<span>Total</span>
+<span class="text-primary">$483.84</span>
+</div>
+</div>
+<button class="w-full mt-xl bg-primary-container text-on-primary font-bold py-md rounded-xl hover:bg-primary transition-all active:scale-[0.98] shadow-md flex items-center justify-center gap-sm group">
+<span>Complete Purchase</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<p class="mt-md text-center font-label-sm text-label-sm text-outline flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="encrypted">encrypted</span>
+                            Secure encrypted transaction
+                        </p>
+</section>
+<!-- Trust Badges -->
+<div class="flex justify-around items-center px-md grayscale opacity-60">
+<span class="material-symbols-outlined text-4xl">verified_user</span>
+<span class="material-symbols-outlined text-4xl">local_shipping</span>
+<span class="material-symbols-outlined text-4xl">support_agent</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-surface-container-low dark:bg-surface-dim border-t border-outline-variant mt-24">
+<div class="w-full px-lg py-xl flex flex-col md:flex-row justify-between items-center gap-md max-w-container-max mx-auto">
+<div class="flex flex-col items-center md:items-start gap-xs">
+<span class="font-title-lg text-title-lg font-bold text-secondary dark:text-secondary-fixed-dim">LuminaRetail</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">© 2024 LuminaRetail. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all" href="#">Shipping Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all" href="#">Return Center</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for payment method switching
+        const methods = ['card', 'paypal', 'bank'];
+        methods.forEach(id => {
+            const el = document.getElementById(`method-${id}`);
+            el.addEventListener('click', () => {
+                // Reset all
+                methods.forEach(m => {
+                    const target = document.getElementById(`method-${m}`);
+                    target.classList.remove('border-primary', 'bg-primary/5', 'border-2');
+                    target.classList.add('border', 'border-outline-variant');
+                    target.querySelector('input[type="radio"]').checked = false;
+                });
+                
+                // Highlight selected
+                el.classList.add('border-primary', 'bg-primary/5', 'border-2');
+                el.classList.remove('border', 'border-outline-variant');
+                el.querySelector('input[type="radio"]').checked = true;
 
-    <script src="/auth.js"></script>
-    <script src="/checkout.js"></script>
-  </body>
-</html>
+                // Toggle card details visibility
+                const cardDetails = document.getElementById('card-details');
+                if(id === 'card') {
+                    cardDetails.style.display = 'grid';
+                } else {
+                    cardDetails.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>

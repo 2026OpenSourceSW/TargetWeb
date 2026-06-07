@@ -1,136 +1,369 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MarketNest</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="brand" href="/">
-        <span class="brand-mark">M</span>
-        <span>MarketNest</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#products">상품</a>
-        <a href="#cart">장바구니</a>
-        <a href="#orders">주문</a>
-        <a href="#reviews">리뷰</a>
-        <a id="adminLink" class="hidden" href="/admin.html">관리자</a>
-        <a id="loginLink" href="/login.html">로그인</a>
-        <a id="signupLink" class="nav-button" href="/signup.html">회원가입</a>
-        <button id="logoutBtn" class="link-button hidden">로그아웃</button>
-      </nav>
-    </header>
+<!DOCTYPE html>
 
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Unified commerce engine</p>
-          <h1>일상의 선택을 더 선명하게 만드는 쇼핑</h1>
-          <p>테크, 패션, 홈 라이프 상품을 한 화면에서 탐색하고 장바구니부터 주문 관리까지 빠르게 이어가세요.</p>
-          <div class="hero-actions">
-            <a class="primary-action" href="#products">상품 둘러보기</a>
-            <a class="secondary-action" href="/signup.html">새 계정 만들기</a>
-          </div>
-          <p id="sessionState" class="session-text"></p>
-        </div>
-        <div class="hero-panel">
-          <div class="metric-card">
-            <span>오늘의 큐레이션</span>
-            <strong>6</strong>
-            <small>라이프스타일 상품</small>
-          </div>
-          <div class="metric-card accent">
-            <span>빠른 주문</span>
-            <strong>3분</strong>
-            <small>장바구니에서 결제까지</small>
-          </div>
-        </div>
-      </section>
-
-      <section id="products" class="band">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Trending now</p>
-            <h2>인기 상품</h2>
-            <p class="muted">필요한 상품을 검색하고 바로 장바구니에 담아보세요.</p>
-          </div>
-          <div class="search-row">
-            <input id="searchInput" value="electronics" aria-label="상품 검색">
-            <button id="searchBtn">검색</button>
-          </div>
-        </div>
-        <div id="productGrid" class="product-grid"></div>
-      </section>
-
-      <section id="cart" class="band split">
-        <div>
-          <p class="eyebrow">Checkout</p>
-          <h2>장바구니</h2>
-          <p class="muted">담은 상품의 금액을 확인하고 쿠폰 할인율을 적용해 결제를 진행하세요.</p>
-          <div id="cartItems" class="cart-list"></div>
-        </div>
-        <form id="checkoutForm" class="tool-panel checkout-card">
-          <div class="panel-title">
-            <span>주문 요약</span>
-            <strong>MarketNest Pay</strong>
-          </div>
-          <label>주문 금액
-            <input id="clientTotal" type="number" value="0">
-          </label>
-          <label>쿠폰 할인율
-            <input id="discountPercent" type="number" value="0">
-          </label>
-          <button>결제하기</button>
-          <pre id="checkoutResult" class="codebox compact"></pre>
-        </form>
-      </section>
-
-      <section id="orders" class="band split">
-        <div>
-          <p class="eyebrow">Orders</p>
-          <h2>주문 조회</h2>
-          <p class="muted">회원 번호로 주문 내역과 처리 상태를 확인할 수 있습니다.</p>
-        </div>
-        <div class="tool-panel">
-          <label>회원 번호
-            <input id="orderUserId" type="number" value="1">
-          </label>
-          <button id="loadOrdersBtn">주문 불러오기</button>
-          <pre id="ordersResult" class="codebox compact"></pre>
-        </div>
-      </section>
-
-      <section id="reviews" class="band split">
-        <div>
-          <p class="eyebrow">Customer reviews</p>
-          <h2>상품 리뷰</h2>
-          <p class="muted">구매 경험을 남기고 다른 고객의 후기를 확인해 보세요.</p>
-          <div id="reviewList" class="review-list"></div>
-        </div>
-        <form id="reviewForm" class="tool-panel">
-          <label>상품 ID
-            <input id="reviewProductId" type="number" value="101">
-          </label>
-          <label>작성자
-            <input id="reviewAuthor" value="guest">
-          </label>
-          <label>리뷰
-            <textarea id="reviewBody">착용감이 좋아요.</textarea>
-          </label>
-          <button>리뷰 등록</button>
-        </form>
-      </section>
-    </main>
-
-    <footer>
-      <strong>MarketNest</strong>
-      <span>고객센터 1588-0000 · 평일 10:00-18:00</span>
-    </footer>
-
-    <script src="/auth.js"></script>
-    <script src="/app.js"></script>
-  </body>
-</html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuminaRetail | Modern Shopping Experience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#003ea8",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#0053db",
+                        "on-secondary": "#ffffff",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "primary-container": "#2563eb",
+                        "surface-variant": "#e1e2ed",
+                        "on-primary": "#ffffff",
+                        "background": "#faf8ff",
+                        "on-primary-container": "#eeefff",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191b23",
+                        "on-tertiary-container": "#ffede6",
+                        "surface-container": "#ededf9",
+                        "on-secondary-container": "#54647a",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#b4c5ff",
+                        "primary": "#004ac6",
+                        "tertiary-container": "#bc4800",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e3039",
+                        "outline-variant": "#c3c6d7",
+                        "surface-dim": "#d9d9e5",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#d0e1fb",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-highest": "#e1e2ed",
+                        "tertiary": "#943700",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-tertiary-fixed": "#360f00",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-surface-variant": "#434655",
+                        "on-background": "#191b23",
+                        "surface-container-low": "#f3f3fe",
+                        "surface-bright": "#faf8ff",
+                        "inverse-on-surface": "#f0f0fb",
+                        "secondary": "#505f76",
+                        "surface-container-high": "#e7e7f3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "md": "16px",
+                        "admin-sidebar-width": "260px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "xl": "32px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface sticky top-0 z-50 shadow-sm">
+<div class="max-w-container-max mx-auto px-lg flex justify-between items-center h-[72px]">
+<!-- Brand Logo -->
+<div class="font-headline-lg text-headline-lg font-bold text-primary">LuminaRetail</div>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden md:flex gap-xl">
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1 hover:text-primary transition-colors" href="#">Shop</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Categories</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Deals</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Orders</a>
+</nav>
+<!-- Search Bar (Right) -->
+<div class="hidden lg:flex flex-1 max-w-md mx-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary text-body-sm" placeholder="Search products..." type="text"/>
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md">
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-md text-label-md hidden sm:inline">Cart</span>
+</button>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-label-md text-label-md hidden sm:inline">Account</span>
+</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Seasonal Hero Banner -->
+<section class="relative w-full h-[500px] md:h-[600px] overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A high-fashion lifestyle photograph showcasing a modern, minimalist interior with soft golden hour light filtering through large windows. The scene features premium lifestyle products arranged elegantly on a sleek white marble table. The color palette is dominated by airy whites, soft slate grays, and deep navy blue accents, creating an atmosphere of sophisticated luxury and seasonal renewal. The lighting is warm and inviting, emphasizing high-end product textures and a professional corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr0_lMvTzQi8IwCQyxVYz9N-GGUMuluKQdF6z3PotcxlIJMbBpaXhvQBaNJBtqNgNndNNGp7YaatCdsCBJ9QO1h1j8WYAVdY_HipNUdJKHbF6w6CLLdSaz28bTPeBmTQcSHMmwxs2JrgfSaF3Oux-I8NYP6qQ0vS1my3gaXkQ4bmMB9Tpf8EqEfPe6K78yQUTeO7hHkbVcheJWjcNH4FWQkVqRXhxPk1A2EOiartch3L1-uwnH54StTA11K_Y_LfWOlVYCs48cHRc"/>
+<div class="absolute inset-0 bg-gradient-to-r from-on-surface/60 to-transparent"></div>
+<div class="relative max-w-container-max mx-auto px-lg h-full flex flex-col justify-center items-start text-white">
+<span class="font-label-md text-label-md bg-primary px-3 py-1 rounded-full mb-md">NEW SEASON 2024</span>
+<h1 class="font-display-lg text-display-lg max-w-2xl mb-md">Elevate Your Everyday Essentials</h1>
+<p class="font-body-lg text-body-lg max-w-lg mb-xl opacity-90">Discover our curated collection of premium electronics, fashion, and home decor designed for the modern professional.</p>
+<div class="flex gap-md">
+<button class="bg-primary text-white px-xl py-md rounded-lg font-title-lg hover:scale-105 transition-transform">Shop Collection</button>
+<button class="glass-effect text-on-surface px-xl py-md rounded-lg font-title-lg hover:bg-white transition-colors border border-white/20">View Deals</button>
+</div>
+</div>
+</section>
+<!-- Category Navigation Bar -->
+<section class="bg-white border-b border-outline-variant py-md">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="flex items-center justify-between overflow-x-auto no-scrollbar gap-xl">
+<a class="flex flex-col items-center gap-2 group min-w-[80px]" href="#">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="devices">devices</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary">Electronics</span>
+</a>
+<a class="flex flex-col items-center gap-2 group min-w-[80px]" href="#">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="apparel">apparel</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary">Fashion</span>
+</a>
+<a class="flex flex-col items-center gap-2 group min-w-[80px]" href="#">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="chair">chair</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary">Home</span>
+</a>
+<a class="flex flex-col items-center gap-2 group min-w-[80px]" href="#">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="content_cut">content_cut</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary">Beauty</span>
+</a>
+<a class="flex flex-col items-center gap-2 group min-w-[80px]" href="#">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="watch">watch</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary">Accessories</span>
+</a>
+<a class="flex flex-col items-center gap-2 group min-w-[80px]" href="#">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="sports_esports">sports_esports</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-primary">Gaming</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Trending Products Grid -->
+<section class="max-w-container-max mx-auto px-lg py-xl">
+<div class="flex justify-between items-end mb-xl">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Trending Now</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Our most-loved pieces this week.</p>
+</div>
+<button class="text-primary font-label-md text-label-md flex items-center gap-1 hover:underline">
+                    View All Products <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Product Card 1 -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant overflow-hidden group hover:shadow-md transition-all">
+<div class="relative h-[300px] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A professional product photography shot of sleek, matte black wireless headphones resting on a polished dark wood surface. The lighting is dramatic and controlled, using rim lighting to accentuate the ergonomic curves and premium textures of the material. The background is a soft-focus studio environment with subtle blue and slate tones, reinforcing a high-tech corporate professional aesthetic. The image conveys quality, precision, and modern design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe_oNvcfnFpf5TL84NBpth4l2vIp3MvR1fW_NerOESmGOE7z0rLhtPV7_gamzva5WJt8sGaePOunZZTnK6BW6PnVyU21WZuUH1UK96Up-WiPfTKnCanXHh1PZ0b_HVe-wBLdcxcP7r78elfSLA8-DcMk-I0M-06vYFx90_CffiLsrPZQJwRoVaCS6uDQuaiRJQvHGTOCmJ6SFw7vMbu2J5bPS8osaRvpYzC6Yp7UdhA4PxPwxH-rb9H9mbvAzRk-yiAuQ_pJuyxRg"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-on-surface hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">Top Seller</span>
+</div>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-label-sm text-outline mb-1 uppercase tracking-tighter">Electronics</p>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 truncate">Lumina Pro Wireless X1</h3>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">$299.00</span>
+<button class="bg-secondary-container text-on-secondary-container p-2 rounded-lg hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant overflow-hidden group hover:shadow-md transition-all">
+<div class="relative h-[300px] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A clean, minimalist product shot of a premium white minimalist watch with a light tan leather strap, centered against a solid neutral gray background. The lighting is soft and even, highlighting the brushed metallic finish and the intricate details of the watch face. The overall composition is balanced and airy, adhering to a high-end corporate lifestyle aesthetic with a focus on simplicity and timeless elegance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0ZhLlxEhE2o31duW_OmXAQH95c5VaYNRiraH1RqBOajrerTOJ30Rv6Y--wqcN9gDjVtJosmRoEJ1pBQzN9eSPzYjpjGxk5_zC7qGPRDeK4mj1ECr0bnHo01EICqO_dOElOWhUzsbtZOOTxlDAMc7yIf5iaioPycHk1E_9_R3LqLI0XL6kl_dg6GLrYywdoHPP1F4TLmA-NYMxA-b3OT2T68Q-A4AyLg2-u8OlW1pkZbIzptGQH1q0lPFCCa-Tf1Wz7gU_Q6bKJH4"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-on-surface hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-label-sm text-outline mb-1 uppercase tracking-tighter">Fashion</p>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 truncate">Nomad Minimalist Watch</h3>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">$185.00</span>
+<button class="bg-secondary-container text-on-secondary-container p-2 rounded-lg hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant overflow-hidden group hover:shadow-md transition-all">
+<div class="relative h-[300px] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A professional studio shot of a sleek, ergonomic designer chair in a muted forest green fabric with dark wooden legs. The chair is positioned at an angle on a light-colored seamless background, with soft studio lighting that creates gentle shadows and emphasizes the fabric's rich texture. The visual style is modern-minimalist, showcasing functional furniture design for a contemporary home or office environment. The color palette is earthy yet professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoneCHUSSzEAtJm9PMJoHxfSF1eQicTEa7IyudSX_EDB8pmaaTYkIyZ1cP5JIPdd5Pl3yCT7TUB4Qfpb6wuzaHARZ_aImNrjK20L39Uf_l2hOMbtNy40WnH1lDcsegsYi2sohOPgP-BSIAWkcq_dZKHHdR9Q4YV5w5znd0cXQ3jC7V1y0ipHWwyAcwA47kjAOr8tK-AoIVsX72fzLjeGvEt8JuIDfPwe4TKxSZCeL9L2x8w-GHFSGfrXzDgxJ92P9d5rqwpJjVuZM"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-on-surface hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute bottom-4 left-4">
+<span class="bg-tertiary text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">New Arrival</span>
+</div>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-label-sm text-outline mb-1 uppercase tracking-tighter">Home</p>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 truncate">Søren Designer Chair</h3>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">$420.00</span>
+<button class="bg-secondary-container text-on-secondary-container p-2 rounded-lg hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant overflow-hidden group hover:shadow-md transition-all">
+<div class="relative h-[300px] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A macro studio photograph of high-end designer sunglasses with dark polarized lenses and a polished gold-tone frame. The sunglasses are resting on a reflective surface that catches soft, diffused light. The background is a clean, minimalist gradient of warm beige and cream, creating a sophisticated and premium product feel. The lighting highlights the fine craftsmanship and luxury materials, embodying the modern-minimalist corporate style of a high-end retail brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZIH5UN0O3EwHSlk-kxLS3_YSwttO0ZFqLSmyc4MvpzE2i1_cxINV2kukoOULATm6Xp7uHlPQvLHWusXf3hFU8PSD_rBVv0xCKUbxK-Ihp5U5AVmlJenI1gRxEgp7v8tdptC1W-gLQYPdD0tqyY12cw3BiZMImevTZmypu5F-djUfsetfyvN1RMFwHZpRRRulzyfOPalP5Y6YS9LmfJO2d5Xr4q65l7h42Zf-D34DdHuFLIuTrV4bQ_b52M2e2YUqb2BAFMnfxFmU"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-on-surface hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-md">
+<p class="font-label-sm text-label-sm text-outline mb-1 uppercase tracking-tighter">Accessories</p>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-2 truncate">Aviator Gold Edition</h3>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">$215.00</span>
+<button class="bg-secondary-container text-on-secondary-container p-2 rounded-lg hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / Bento Section -->
+<section class="max-w-container-max mx-auto px-lg py-xl">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<div class="lg:col-span-2 bg-on-surface rounded-2xl p-xl flex flex-col justify-center relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="relative z-10">
+<h2 class="font-display-lg text-display-lg text-white mb-md">Join the Lumina Collective</h2>
+<p class="font-body-lg text-body-lg text-outline-variant mb-xl max-w-lg">Get early access to new collections, exclusive member-only deals, and personal shopping recommendations.</p>
+<form class="flex flex-col sm:flex-row gap-md max-w-md">
+<input class="flex-1 bg-surface-container-highest border-none rounded-lg px-md py-3 text-white focus:ring-2 focus:ring-primary" placeholder="Enter your email" type="email"/>
+<button class="bg-primary text-white font-title-lg px-xl py-3 rounded-lg hover:bg-primary-container transition-colors">Subscribe</button>
+</form>
+</div>
+</div>
+<div class="bg-primary-container rounded-2xl p-xl flex flex-col items-center justify-center text-center text-white">
+<span class="material-symbols-outlined text-[64px] mb-md" data-icon="workspace_premium">workspace_premium</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Premium Rewards</h3>
+<p class="font-body-md text-body-md opacity-90 mb-lg">Earn points on every purchase and unlock exclusive benefits.</p>
+<button class="bg-white text-primary px-lg py-2 rounded-full font-label-md text-label-md hover:shadow-lg transition-all">Learn More</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant py-xl">
+<div class="max-w-container-max mx-auto px-xl flex flex-col items-center gap-md">
+<div class="font-headline-md text-headline-md font-bold text-primary">LuminaRetail</div>
+<nav class="flex flex-wrap justify-center gap-xl mt-md">
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">About Us</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-colors" href="#">FAQ</a>
+</nav>
+<div class="flex gap-lg mt-md">
+<a class="text-on-secondary-container hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-on-secondary-container hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="text-on-secondary-container hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-xl">© 2024 LuminaRetail. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for product cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.querySelector('.material-symbols-outlined[data-icon="add_shopping_cart"]')?.classList.add('animate-bounce');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.querySelector('.material-symbols-outlined[data-icon="add_shopping_cart"]')?.classList.remove('animate-bounce');
+            });
+        });
+    </script>
+</body></html>

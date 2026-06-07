@@ -1,37 +1,339 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>주문 내역 | MarketNest</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
-      <nav class="nav-links">
-        <a href="/">스토어</a>
-        <a id="adminLink" class="hidden" href="/admin.html">관리자</a>
-        <a id="loginLink" href="/login.html">로그인</a>
-        <a id="signupLink" class="nav-button" href="/signup.html">회원가입</a>
-        <button id="logoutBtn" class="link-button hidden">로그아웃</button>
-      </nav>
-    </header>
-    <main class="band">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Orders</p>
-          <h1 class="page-title">주문 내역</h1>
-          <p class="muted">회원 번호를 기준으로 주문 목록을 조회합니다.</p>
-        </div>
-        <div class="search-row">
-          <input id="historyUserId" type="number" value="1" aria-label="회원 번호">
-          <button id="historyLoadBtn">조회</button>
-        </div>
-      </div>
-      <div id="orderHistory" class="admin-table"></div>
-    </main>
-    <script src="/auth.js"></script>
-    <script src="/orders.js"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>주문 내역 | LuminaRetail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .order-card-hover:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#bc4800",
+                      "error-container": "#ffdad6",
+                      "primary": "#004ac6",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#b4c5ff",
+                      "surface": "#faf8ff",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-secondary-container": "#54647a",
+                      "surface-container": "#ededf9",
+                      "on-tertiary-container": "#ffede6",
+                      "on-surface": "#191b23",
+                      "error": "#ba1a1a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#eeefff",
+                      "on-primary": "#ffffff",
+                      "background": "#faf8ff",
+                      "surface-variant": "#e1e2ed",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "primary-container": "#2563eb",
+                      "outline": "#737686",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#0053db",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "surface-container-high": "#e7e7f3",
+                      "secondary": "#505f76",
+                      "surface-container-low": "#f3f3fe",
+                      "surface-bright": "#faf8ff",
+                      "inverse-on-surface": "#f0f0fb",
+                      "on-background": "#191b23",
+                      "on-surface-variant": "#434655",
+                      "tertiary-fixed": "#ffdbcd",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "on-tertiary-fixed": "#360f00",
+                      "tertiary": "#943700",
+                      "surface-container-highest": "#e1e2ed",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed": "#00174b",
+                      "primary-fixed": "#dbe1ff",
+                      "secondary-container": "#d0e1fb",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#d9d9e5",
+                      "outline-variant": "#c3c6d7",
+                      "on-secondary-fixed": "#0b1c30",
+                      "inverse-surface": "#2e3039"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "lg": "24px",
+                      "admin-sidebar-width": "260px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "sm": "8px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "label-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopNavBar (Shared Component Identity) -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface dark:bg-on-surface shadow-sm">
+<div class="max-w-container-max mx-auto px-lg flex justify-between items-center h-[72px]">
+<div class="flex items-center gap-xl">
+<a class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim" href="#">LuminaRetail</a>
+<nav class="hidden md:flex gap-lg">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors" href="#">Shop</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors" href="#">Categories</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors" href="#">Deals</a>
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1" href="#">Orders</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-sm focus:ring-2 focus:ring-primary outline-none w-[240px]" placeholder="Search orders..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">favorite</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-xs font-label-md text-label-md text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="hidden lg:inline">Cart</span>
+</button>
+<button class="flex items-center gap-xs font-label-md text-label-md text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="hidden lg:inline">Account</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-[104px] pb-xl px-md max-w-container-max mx-auto min-h-screen">
+<!-- Page Header & Filter Section -->
+<section class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<nav class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-xs">
+<a class="hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface">My Orders</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">주문 내역</h1>
+<p class="text-on-surface-variant font-body-md text-body-md mt-xs">최근 주문하신 내역을 확인하고 배송 현황을 추적하실 수 있습니다.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">기간 선택</label>
+<select class="bg-surface border border-outline-variant rounded-lg px-md py-sm font-label-md text-label-md text-on-surface min-w-[160px] focus:ring-primary focus:border-primary">
+<option>최근 3개월</option>
+<option>2023년 전체</option>
+<option>2022년 전체</option>
+<option>기간 직접 입력</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Orders List -->
+<div class="grid grid-cols-1 gap-lg">
+<!-- Order Card 1: Delivered -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden order-card-hover transition-all duration-300">
+<div class="bg-surface-container-low px-lg py-md flex flex-wrap justify-between items-center gap-md border-b border-outline-variant">
+<div class="flex gap-xl text-body-sm font-body-sm">
+<div>
+<p class="text-on-surface-variant mb-1">주문 일자</p>
+<p class="font-semibold text-on-surface">2024년 5월 12일</p>
+</div>
+<div>
+<p class="text-on-surface-variant mb-1">주문 번호</p>
+<p class="font-semibold text-on-surface">#ORD-8829-XL12</p>
+</div>
+<div>
+<p class="text-on-surface-variant mb-1">총 결제 금액</p>
+<p class="font-semibold text-on-surface">₩149,000</p>
+</div>
+</div>
+<div class="flex items-center gap-xs">
+<span class="px-md py-1 bg-green-100 text-green-700 rounded-full font-label-sm text-label-sm uppercase">배송 완료</span>
+<a class="text-primary font-label-md text-label-md hover:underline ml-md" href="#">주문 상세 보기</a>
+</div>
+</div>
+<div class="p-lg flex flex-col lg:flex-row lg:items-center justify-between gap-xl">
+<div class="flex-1 space-y-md">
+<!-- Product Item 1 -->
+<div class="flex items-center gap-md">
+<img class="w-20 h-20 rounded-lg object-cover bg-surface-variant" data-alt="A premium pair of high-fidelity wireless over-ear headphones in a sleek matte black finish. The image is captured with professional studio lighting, emphasizing the smooth textures and ergonomic curves of the earcups. The overall aesthetic is clean and modern, perfectly fitting a high-end electronic lifestyle theme with soft gradients and deep shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5hCTNdEBgGaHN0A8kC2ZbPKbh4D1dhT7f4g9s3ijEqi1twxKvgYJc8a5HbAe2G_vEW9Gp498bm_CgG7t082TcJhzW92v6_A6mGRu9nGZYMrzx08MYxPIK7w35Q0NQskqgVRwqONrrA2hXB9-jpBpGGJpGLwGsRi7fb5iDwj0dCeiqrhAZtS1uPVKfiqAXam07WDVP2jc8TjmC7V0RFOYv59gC_-BDYYBIed31qNzZ68b2cMS9FejQaRz2PGaBw0ZKOZ9viIv2n7M"/>
+<div class="flex-1">
+<h4 class="font-title-lg text-title-lg text-on-surface">Lumina SoundPro Gen 3 Wireless</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">수량: 1 | 옵션: Matte Black</p>
+<p class="text-primary font-bold mt-1">₩149,000</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row lg:flex-col gap-sm w-full lg:w-48">
+<button class="w-full px-lg py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">다시 구매하기</button>
+<button class="w-full px-lg py-sm border border-outline text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors">배송 추적</button>
+</div>
+</div>
+</article>
+<!-- Order Card 2: Multiple Products, Shipped -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden order-card-hover transition-all duration-300">
+<div class="bg-surface-container-low px-lg py-md flex flex-wrap justify-between items-center gap-md border-b border-outline-variant">
+<div class="flex gap-xl text-body-sm font-body-sm">
+<div>
+<p class="text-on-surface-variant mb-1">주문 일자</p>
+<p class="font-semibold text-on-surface">2024년 5월 08일</p>
+</div>
+<div>
+<p class="text-on-surface-variant mb-1">주문 번호</p>
+<p class="font-semibold text-on-surface">#ORD-7712-BK00</p>
+</div>
+<div>
+<p class="text-on-surface-variant mb-1">총 결제 금액</p>
+<p class="font-semibold text-on-surface">₩82,500</p>
+</div>
+</div>
+<div class="flex items-center gap-xs">
+<span class="px-md py-1 bg-blue-100 text-blue-700 rounded-full font-label-sm text-label-sm uppercase">배송 중</span>
+<a class="text-primary font-label-md text-label-md hover:underline ml-md" href="#">주문 상세 보기</a>
+</div>
+</div>
+<div class="p-lg flex flex-col lg:flex-row lg:items-center justify-between gap-xl">
+<div class="flex-1 space-y-lg">
+<!-- Product Item 2.1 -->
+<div class="flex items-center gap-md">
+<img class="w-20 h-20 rounded-lg object-cover bg-surface-variant" data-alt="A sophisticated smart coffee mug made of white ceramic with a sleek digital temperature display integrated at the base. The mug is placed on a minimalist oak wood coaster in a bright, sun-drenched breakfast nook. The mood is cozy yet technologically advanced, featuring a bright and airy atmosphere with subtle morning light casting soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX2UzsqA1-CnAWCuTbzzvK7eTmOlPX30CWT7RyoeK3hASSoBNfNjJrUqPzGJpgEnGXSDW4Ri6iem30VYhGNx3vQuG3hDQ9hKQ_2xxpxDjaNYoeRG0yPl6KZ6D22xoWMLUbCMdOu_JUlqbfVWbWhWPcRxHRRsJWTLwW9rOjgvHfr_6ypnrdDFi3rcZSVip4vNBYwbp2x9mVj2iK8fwCY4xMboacjjDQ1OTn3BRLK8Ts-dyOlqPFnUceDOIiCBuPvb3YQmKQsGVXzbs"/>
+<div class="flex-1">
+<h4 class="font-title-lg text-title-lg text-on-surface">Lumina Smart Coffee Mug</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">수량: 1 | 옵션: Ceramic White</p>
+<p class="text-primary font-bold mt-1">₩54,000</p>
+</div>
+</div>
+<!-- Product Item 2.2 -->
+<div class="flex items-center gap-md">
+<img class="w-20 h-20 rounded-lg object-cover bg-surface-variant" data-alt="A set of premium reusable silicone food storage bags in various pastel colors like soft mint, lilac, and pale blue. The bags are arranged neatly on a pristine white marble kitchen countertop, surrounded by fresh, vibrant vegetables like cherry tomatoes and herbs. The scene is bright, clean, and highlights eco-friendly luxury with sharp focus and professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkn5XGuGx9a5O8h7p76hyuBF6Tcw9okX_1p97vPlbuUSFm70qDHBiViFBmI7riqXbxIUdmlcnPH7PN1qQD2JvQWmbU9BSMDpDOe5WnYiXCXTt45S22PW3Xyv6nBHjpWFuvk_6hg_ESc7r4HQWlJGSLdMO0-e4qpmrm-b-bLGG4R2tQBkUATxlNzXwpczrSNWgDsOWXt-YdoZXSTJnN1CDe2jCMSGPT6mB3Gp4F5TNJ4ljHJxq6d7Pm_AdTClWzCW0yTzf-N1IrDVI"/>
+<div class="flex-1">
+<h4 class="font-title-lg text-title-lg text-on-surface">Eco-Flex Silicone Storage Set</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">수량: 1 | 옵션: Pastel Mix</p>
+<p class="text-primary font-bold mt-1">₩28,500</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row lg:flex-col gap-sm w-full lg:w-48">
+<button class="w-full px-lg py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">다시 구매하기</button>
+<button class="w-full px-lg py-sm border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors">배송 추적</button>
+</div>
+</div>
+</article>
+<!-- Order Card 3: Processing -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden order-card-hover transition-all duration-300 opacity-80">
+<div class="bg-surface-container-low px-lg py-md flex flex-wrap justify-between items-center gap-md border-b border-outline-variant">
+<div class="flex gap-xl text-body-sm font-body-sm">
+<div>
+<p class="text-on-surface-variant mb-1">주문 일자</p>
+<p class="font-semibold text-on-surface">2024년 5월 14일</p>
+</div>
+<div>
+<p class="text-on-surface-variant mb-1">주문 번호</p>
+<p class="font-semibold text-on-surface">#ORD-9901-MZ22</p>
+</div>
+<div>
+<p class="text-on-surface-variant mb-1">총 결제 금액</p>
+<p class="font-semibold text-on-surface">₩45,000</p>
+</div>
+</div>
+<div class="flex items-center gap-xs">
+<span class="px-md py-1 bg-surface-container-highest text-on-surface-variant rounded-full font-label-sm text-label-sm uppercase">상품 준비 중</span>
+<a class="text-primary font-label-md text-label-md hover:underline ml-md" href="#">주문 상세 보기</a>
+</div>
+</div>
+<div class="p-lg flex flex-col lg:flex-row lg:items-center justify-between gap-xl">
+<div class="flex-1 space-y-md">
+<div class="flex items-center gap-md">
+<img class="w-20 h-20 rounded-lg object-cover bg-surface-variant" data-alt="A modern minimalist aluminum laptop stand with an adjustable hinge, showcased in a professional home office setting. The silver stand supports a high-end laptop on a dark slate desk. The room features soft, warm ambient lighting with a bokeh background of a tidy bookshelf, creating a productive and sophisticated corporate professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnW2YN5We6seLdOBhFOIkHLKRsPuVZW0v-qc6tHsaDQ5U91TnHWBuUIKEU1CXmLWAd-0cGg_7W67MmJmcMso6ChGEChUTWhQpyfV70fNNL3PnHESLGekoXs31g6075yN7k2EblDHpreTasU2YY7aSEzJ1ML8Hq6oM53SqhagklGs2tcLPL1JYdX75dtDAGnMNua0pFJVVImJXD6ulk5WPvnyQB98ROr7E8slX2zwOe-cF6nU5Csdl7jZPC2MEXRsGlO00g62A-8-0"/>
+<div class="flex-1">
+<h4 class="font-title-lg text-title-lg text-on-surface">ErgoView Aluminum Laptop Stand</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">수량: 1 | 옵션: Silver</p>
+<p class="text-primary font-bold mt-1">₩45,000</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row lg:flex-col gap-sm w-full lg:w-48">
+<button class="w-full px-lg py-sm bg-outline-variant text-on-surface-variant rounded-lg font-label-md text-label-md cursor-not-allowed" disabled="">배송 대기 중</button>
+<button class="w-full px-lg py-sm border border-outline text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors">주문 취소</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<nav class="mt-xl flex justify-center items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</main>
+<!-- Footer (Shared Component Identity) -->
+<footer class="bg-surface-container-low dark:bg-on-surface border-t border-outline-variant dark:border-outline">
+<div class="max-w-container-max mx-auto px-xl py-xl flex flex-col items-center gap-md">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">LuminaRetail</div>
+<nav class="flex flex-wrap justify-center gap-lg">
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-outline-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-outline-variant hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-outline-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-outline-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-outline-variant hover:text-primary transition-colors" href="#">FAQ</a>
+</nav>
+<p class="font-body-sm text-body-sm text-on-secondary-container dark:text-outline-variant opacity-90">© 2024 LuminaRetail. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for the search bar
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary');
+        });
+    </script>
+</body></html>
