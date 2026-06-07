@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>주문 완료 | MarketNest</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
+      <nav class="nav-links">
+        <a href="/">스토어</a>
+        <a href="/orders.html">주문 내역</a>
+      </nav>
+    </header>
+    <main class="confirmation">
+      <div class="success-icon">✓</div>
+      <p class="eyebrow">Order complete</p>
+      <h1>주문이 완료되었습니다.</h1>
+      <p class="muted">주문 번호와 상품 정보를 확인하세요.</p>
+      <pre id="confirmationResult" class="codebox compact"></pre>
+      <div class="hero-actions">
+        <a class="primary-action" href="/">계속 쇼핑하기</a>
+        <a class="secondary-action" href="/orders.html">주문 내역 보기</a>
+      </div>
+    </main>
+    <script src="/confirmation.js"></script>
+  </body>
+</html>

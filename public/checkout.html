@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>체크아웃 | MarketNest</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
+      <nav class="nav-links">
+        <a href="/">스토어</a>
+        <a href="/orders.html">주문 내역</a>
+        <a id="adminLink" class="hidden" href="/admin.html">관리자</a>
+        <a id="loginLink" href="/login.html">로그인</a>
+        <a id="signupLink" class="nav-button" href="/signup.html">회원가입</a>
+        <button id="logoutBtn" class="link-button hidden">로그아웃</button>
+      </nav>
+    </header>
+
+    <main class="band checkout-layout">
+      <section>
+        <p class="eyebrow">Checkout</p>
+        <h1 class="page-title">주문서</h1>
+        <div id="checkoutItems" class="cart-list"></div>
+      </section>
+      <form id="checkoutPageForm" class="tool-panel checkout-card">
+        <div class="panel-title"><span>결제 정보</span><strong>MarketNest Pay</strong></div>
+        <label>주문 금액
+          <input id="checkoutTotal" type="number" value="0">
+        </label>
+        <label>쿠폰 할인율
+          <input id="checkoutDiscount" type="number" value="0">
+        </label>
+        <button>주문하기</button>
+        <pre id="checkoutPageResult" class="codebox compact"></pre>
+      </form>
+    </main>
+
+    <script src="/auth.js"></script>
+    <script src="/checkout.js"></script>
+  </body>
+</html>

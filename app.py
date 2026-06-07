@@ -269,6 +269,13 @@ class MarketNestHandler(BaseHTTPRequestHandler):
             if parsed.path == "/api/products":
                 return self.send_json(HTTPStatus.OK, {"products": query_all("SELECT * FROM products ORDER BY id")})
 
+            if parsed.path == "/api/product":
+                product_id = int(query.get("id", ["0"])[0])
+                products = query_all(f"SELECT * FROM products WHERE id = {product_id}")
+                if not products:
+                    return self.send_json(HTTPStatus.NOT_FOUND, {"error": "Product not found"})
+                return self.send_json(HTTPStatus.OK, {"product": products[0]})
+
             if parsed.path == "/api/search":
                 term = query.get("q", [""])[0]
                 sql = f"SELECT * FROM products WHERE name LIKE '%{term}%' OR category LIKE '%{term}%'"
@@ -298,8 +305,18 @@ class MarketNestHandler(BaseHTTPRequestHandler):
                 orders = [order for order in ORDERS if order["userId"] == user_id]
                 return self.send_json(HTTPStatus.OK, {"orders": orders})
 
+            if parsed.path == "/api/order":
+                order_id = int(query.get("orderId", ["0"])[0])
+                order = next((item for item in ORDERS if item["id"] == order_id), None)
+                if not order:
+                    return self.send_json(HTTPStatus.NOT_FOUND, {"error": "Order not found"})
+                return self.send_json(HTTPStatus.OK, {"order": order})
+
             if parsed.path == "/api/admin/orders":
                 return self.send_json(HTTPStatus.OK, {"orders": ORDERS, "currentUser": session})
+
+            if parsed.path == "/api/admin/products":
+                return self.send_json(HTTPStatus.OK, {"products": query_all("SELECT * FROM products ORDER BY id")})
 
             if parsed.path == "/api/checkout" and self.command == "POST":
                 return self.checkout(session)

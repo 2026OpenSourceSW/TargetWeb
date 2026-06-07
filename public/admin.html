@@ -6,31 +6,47 @@
     <title>관리자 | MarketNest</title>
     <link rel="stylesheet" href="/styles.css">
   </head>
-  <body>
-    <header class="topbar">
+  <body class="admin-page">
+    <aside class="admin-sidebar">
       <a class="brand" href="/">
         <span class="brand-mark">M</span>
         <span>MarketNest</span>
       </a>
       <nav>
-        <a href="/">스토어</a>
-        <button id="logoutBtn" class="link-button">로그아웃</button>
+        <a class="active" href="/admin.html">주문 관리</a>
+        <a href="/admin-products.html">상품 관리</a>
+        <a href="/">스토어 보기</a>
       </nav>
-    </header>
+      <button id="logoutBtn" class="ghost-button">로그아웃</button>
+    </aside>
 
-    <main>
-      <section class="band">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Admin</p>
-            <h1 class="page-title">주문 관리</h1>
-            <p id="adminGreeting" class="muted"></p>
-          </div>
-          <button id="refreshOrdersBtn">새로고침</button>
+    <main class="admin-main">
+      <section class="admin-header">
+        <div>
+          <p class="eyebrow">Admin console</p>
+          <h1 class="page-title">주문 관리</h1>
+          <p id="adminGreeting" class="muted"></p>
         </div>
-        <div id="adminGuard" class="notice hidden">관리자 권한으로 로그인하면 주문 관리 화면을 볼 수 있습니다.</div>
-        <div id="adminOrders" class="admin-table"></div>
+        <button id="refreshOrdersBtn">새로고침</button>
       </section>
+
+      <section class="admin-summary">
+        <article>
+          <span>오늘 주문</span>
+          <strong>2</strong>
+        </article>
+        <article>
+          <span>처리 대기</span>
+          <strong>1</strong>
+        </article>
+        <article>
+          <span>결제 완료</span>
+          <strong>1</strong>
+        </article>
+      </section>
+
+      <div id="adminGuard" class="notice hidden">관리자 권한으로 로그인하면 주문 관리 화면을 볼 수 있습니다.</div>
+      <div id="adminOrders" class="admin-table"></div>
     </main>
 
     <script src="/auth.js"></script>

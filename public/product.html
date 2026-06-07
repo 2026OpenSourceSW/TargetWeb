@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>상품 상세 | MarketNest</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">M</span><span>MarketNest</span></a>
+      <nav class="nav-links">
+        <a href="/">스토어</a>
+        <a href="/checkout.html">체크아웃</a>
+        <a href="/orders.html">주문 내역</a>
+        <a id="adminLink" class="hidden" href="/admin.html">관리자</a>
+        <a id="loginLink" href="/login.html">로그인</a>
+        <a id="signupLink" class="nav-button" href="/signup.html">회원가입</a>
+        <button id="logoutBtn" class="link-button hidden">로그아웃</button>
+      </nav>
+    </header>
+
+    <main class="detail-layout">
+      <section id="productDetail" class="product-detail"></section>
+      <section class="band">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Reviews</p>
+            <h2>상품 리뷰</h2>
+          </div>
+        </div>
+        <div id="detailReviews" class="review-list"></div>
+      </section>
+    </main>
+
+    <script src="/auth.js"></script>
+    <script src="/product.js"></script>
+  </body>
+</html>

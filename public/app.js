@@ -6,7 +6,7 @@ const money = new Intl.NumberFormat("ko-KR", {
 
 const state = {
   products: [],
-  cart: [],
+  cart: JSON.parse(localStorage.getItem("marketnestCart") || "[]"),
   user: null
 };
 
@@ -50,14 +50,19 @@ function renderProducts(products) {
     .map((product) => {
       return `
         <article class="product-card">
-          <img src="${product.image}" alt="${product.name}">
+          <a class="product-image-link" href="/product.html?id=${product.id}">
+            <img src="${product.image}" alt="${product.name}">
+          </a>
           <div class="product-body">
             <div>
-              <h3>${product.name}</h3>
+              <h3><a href="/product.html?id=${product.id}">${product.name}</a></h3>
               <p class="muted">${product.description}</p>
             </div>
             <div class="price">${money.format(product.price)}</div>
-            <button data-add="${product.id}">담기</button>
+            <div class="product-actions">
+              <a class="secondary-mini" href="/product.html?id=${product.id}">상세 보기</a>
+              <button data-add="${product.id}">담기</button>
+            </div>
           </div>
         </article>
       `;
@@ -74,6 +79,7 @@ function renderCart() {
         return `<div class="cart-row"><strong>${product.name}</strong><span>${money.format(product.price)}</span></div>`;
       })
       .join("") || `<p class="muted">장바구니가 비어 있습니다.</p>`;
+  localStorage.setItem("marketnestCart", JSON.stringify(state.cart));
 }
 
 async function loadProducts() {
@@ -119,6 +125,7 @@ $("#checkoutForm").addEventListener("submit", async (event) => {
       items: state.cart.map((product) => product.name)
     })
   });
+  localStorage.setItem("marketnestLastOrder", JSON.stringify(data.order));
   print("#checkoutResult", data);
 });
 
