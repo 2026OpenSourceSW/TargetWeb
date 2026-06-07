@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MarketNest</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">M</span>
+        <span>MarketNest</span>
+      </a>
+      <nav>
+        <a href="#products">상품</a>
+        <a href="#cart">장바구니</a>
+        <a href="#orders">주문</a>
+        <a href="#reviews">리뷰</a>
+        <a id="adminLink" class="hidden" href="/admin.html">관리자</a>
+        <a id="loginLink" href="/login.html">로그인</a>
+        <a id="signupLink" class="nav-button" href="/signup.html">회원가입</a>
+        <button id="logoutBtn" class="link-button hidden">로그아웃</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Curated lifestyle market</p>
+          <h1>일상을 가볍게 바꾸는 감각적인 쇼핑</h1>
+          <p>패션, 테크, 홈 카테고리의 인기 상품을 한 곳에서 둘러보고 빠르게 주문하세요.</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#products">상품 둘러보기</a>
+            <a class="secondary-action" href="/signup.html">새 계정 만들기</a>
+          </div>
+          <p id="sessionState" class="session-text"></p>
+        </div>
+      </section>
+
+      <section id="products" class="band">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Shop</p>
+            <h2>인기 상품</h2>
+          </div>
+          <div class="search-row">
+            <input id="searchInput" value="electronics" aria-label="상품 검색">
+            <button id="searchBtn">검색</button>
+          </div>
+        </div>
+        <div id="productGrid" class="product-grid"></div>
+      </section>
+
+      <section id="cart" class="band split">
+        <div>
+          <p class="eyebrow">Cart</p>
+          <h2>장바구니</h2>
+          <p class="muted">담은 상품을 확인하고 결제를 진행하세요.</p>
+          <div id="cartItems" class="cart-list"></div>
+        </div>
+        <form id="checkoutForm" class="tool-panel">
+          <label>주문 금액
+            <input id="clientTotal" type="number" value="0">
+          </label>
+          <label>쿠폰 할인율
+            <input id="discountPercent" type="number" value="0">
+          </label>
+          <button>결제하기</button>
+          <pre id="checkoutResult" class="codebox compact"></pre>
+        </form>
+      </section>
+
+      <section id="orders" class="band split">
+        <div>
+          <p class="eyebrow">Orders</p>
+          <h2>주문 조회</h2>
+          <p class="muted">내 주문 내역과 배송 상태를 확인할 수 있습니다.</p>
+        </div>
+        <div class="tool-panel">
+          <label>회원 번호
+            <input id="orderUserId" type="number" value="1">
+          </label>
+          <button id="loadOrdersBtn">주문 불러오기</button>
+          <pre id="ordersResult" class="codebox compact"></pre>
+        </div>
+      </section>
+
+      <section id="reviews" class="band split">
+        <div>
+          <p class="eyebrow">Reviews</p>
+          <h2>상품 리뷰</h2>
+          <p class="muted">구매 경험을 남기고 다른 고객의 후기를 확인해 보세요.</p>
+          <div id="reviewList" class="review-list"></div>
+        </div>
+        <form id="reviewForm" class="tool-panel">
+          <label>상품 ID
+            <input id="reviewProductId" type="number" value="101">
+          </label>
+          <label>작성자
+            <input id="reviewAuthor" value="guest">
+          </label>
+          <label>리뷰
+            <textarea id="reviewBody">착용감이 좋아요.</textarea>
+          </label>
+          <button>리뷰 등록</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <strong>MarketNest</strong>
+      <span>고객센터 1588-0000 · 평일 10:00-18:00</span>
+    </footer>
+
+    <script src="/auth.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

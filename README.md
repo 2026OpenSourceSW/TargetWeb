@@ -4,7 +4,7 @@ TargetWeb is a collection of intentionally vulnerable mini websites for local OW
 
 Each OWASP Top 5 category has 1-3 separate website concepts, and each website runs as its own Python process on its own port.
 
-Only the Python standard library is used.
+Only the Python standard library is used for the independent Python sites.
 
 ## Run All Sites
 
@@ -28,9 +28,33 @@ This starts all 11 websites:
 | A05 Injection | NewsNest | 8110 | `http://127.0.0.1:8110` |
 | A05 Injection | CouponBee | 8111 | `http://127.0.0.1:8111` |
 
-## Run One Site
+## MarketNest
 
-Each website can also run independently:
+MarketNest is an e-commerce storefront demo with product search, cart checkout, order lookup, reviews, sign-up, login, and an admin order screen.
+
+The product catalog is created automatically in `data/marketnest.db` when the Node server starts.
+
+```powershell
+npm start
+```
+
+Open `http://localhost:3000` in a browser.
+
+Accounts:
+
+- Customer: `jinwoo@example.com` / `password123`
+- Admin: `admin@example.com` / `admin123`
+
+Pages:
+
+- `/` storefront
+- `/login.html` login
+- `/signup.html` sign-up
+- `/admin.html` admin order management
+
+## Run One Python Site
+
+Each Python website can also run independently:
 
 ```powershell
 python sites/shopmart.py

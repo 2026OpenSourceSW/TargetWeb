@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>로그인 | MarketNest</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <section class="auth-visual">
+        <a class="brand auth-brand" href="/">
+          <span class="brand-mark">M</span>
+          <span>MarketNest</span>
+        </a>
+        <h1>다시 만나서 반가워요.</h1>
+        <p>주문 내역과 장바구니를 이어서 확인하세요.</p>
+      </section>
+      <section class="auth-card">
+        <p class="eyebrow">Sign in</p>
+        <h2>로그인</h2>
+        <form id="loginForm">
+          <label>이메일
+            <input id="email" type="email" value="jinwoo@example.com" autocomplete="email">
+          </label>
+          <label>비밀번호
+            <input id="password" type="password" value="password123" autocomplete="current-password">
+          </label>
+          <button>로그인</button>
+          <p id="loginMessage" class="form-message"></p>
+        </form>
+        <p class="auth-switch">계정이 없나요? <a href="/signup.html">회원가입</a></p>
+        <p class="muted small">관리자 계정: admin@example.com / admin123</p>
+      </section>
+    </main>
+    <script src="/login.js"></script>
+  </body>
+</html>
