@@ -2,12 +2,18 @@
 
 MarketNest는 전자상거래 쇼핑몰 컨셉의 웹사이트입니다. 상품 검색, 장바구니, 결제, 주문 조회, 리뷰, 회원가입, 로그인, 관리자 주문 관리 화면을 포함합니다.
 
-상품 카탈로그는 서버 실행 시 `data/marketnest.db` SQLite 데이터베이스에서 로드됩니다.
+서버는 Python 표준 라이브러리로 실행되며, 상품 카탈로그는 `data/marketnest.db` SQLite 데이터베이스에서 로드됩니다.
 
 ## 실행
 
 ```powershell
-npm start
+python app.py
+```
+
+또는 Windows Python 런처를 사용할 수 있습니다.
+
+```powershell
+py -3 app.py
 ```
 
 브라우저에서 `http://localhost:3000`을 엽니다.
@@ -37,20 +43,19 @@ npm start
 
 ```text
 .
-├── data/
-│   └── marketnest.db
-├── public/
-│   ├── admin.html
-│   ├── admin.js
-│   ├── app.js
-│   ├── auth.js
-│   ├── index.html
-│   ├── login.html
-│   ├── login.js
-│   ├── signup.html
-│   ├── signup.js
-│   └── styles.css
-├── package.json
-├── README.md
-└── server.js
+|-- app.py
+|-- data/
+|   `-- marketnest.db
+|-- public/
+|   |-- admin.html
+|   |-- admin.js
+|   |-- app.js
+|   |-- auth.js
+|   |-- index.html
+|   |-- login.html
+|   |-- login.js
+|   |-- signup.html
+|   |-- signup.js
+|   `-- styles.css
+`-- README.md
 ```
